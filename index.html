@@ -10,86 +10,30 @@
     <script src="scripts.js" defer></script>
 </head>
 
-<body id="body">
-    <h1>BMR calculator</h1>  
-
-
-
-    <div>
-        <label for="height">Height</label>
-        <input type="text" name="height" id="height">
-        <span class="error" id="height-error"></span>
-    </div>
-    <div>
-        <label for="weight">Weight</label>
-        <input type="text" name="weight" id="weight">
-        <span class="error" id="weight-error"></span>
-    </div>
-    <div>
-        <label for="age">Age</label>
-        <input type="text" name="age" id="age">
-        <span class="error" id="age-error"></span>
+<body>
+    <div class="container">
+        <button class="generate-button" id="generate-button">generate random color</button>
+        <div class="color-container" id="color-container">
+            
+        </div>
+        <span id="color-value"></span>
     </div>
 
     <div>
-        <input type="radio" id="male" name="gender" value="male">
-        <label for="male">Male</label>
-        <input type="radio" id="female" name="gender" value="female">
-        <label for="female">Female</label>
-        <span class="error" id="gender-error"></span>
+        <button class="modal-btn" id="modal-button">Open Modal</button>
     </div>
 
-    <div>
-        <input type="radio" id="sedentary-active" name="activity-level" value="sedentary">
-        <label for="sedentary-active">Sedentary</label>
-
-        <input type="radio" id="lightly-active" name="activity-level" value="lightly-active">
-        <label for="lightly-active">Lightly-active</label>
-
-        <input type="radio" id="moderately-active" name="activity-level" value="moderately-active">
-        <label for="moderately-active">Moderately-active</label>
-
-        <input type="radio" id="very-active" name="activity-level" value="very-active">
-        <label for="very-active">Very-active</label>
-
-        <input type="radio" id="extra-active" name="activity-level" value="extra-active">
-        <label for="extra-active">Extra-active</label>
-        <span class="error" id="activity-error"></span>
-    </div>
-    <button onClick="calcBmr()">Calculate BMR</button>
-    <div class="result-pop" id="result-pop">
-        <div>
-            <button class="close" onClick="closeB()">X</button>
-            <span id="result"></span><br>
+    <div class="modal" id="modal">
+        <div class="containerb">
+            <div class="container-top">
+                <button class="close-btn" id="close-btn">&times;</button>
+            </div>
+            <div class="container-bottom">
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, possimus fugiat facilis inventore atque est nesciunt cupiditate enim magnam obcaecati perferendis ut iusto temporibus, vitae quos iste, quia ea nisi.</p>
+                <button class="accept-btn" id="accept-btn">Accept</button>
+            </div>
         </div>
     </div>
-    <button id="mode-button" onClick="mode()">Dark</button>
-<!-- 
-    <div class="calculator">
-        <span class="display" id="display"></span>
-        <div class="numbers">
-            <button onClick="call1()">1</button>
-            <button onClick="call2()">2</button>
-            <button onClick="call3()">3</button>
-            <button onClick="call4()">4</button>
-            <button onClick="call5()">5</button>
-            <button onClick="call6()">6</button>
-            <button onClick="call7()">7</button>
-            <button onClick="call8()">8</button>
-            <button onClick="call9()">9</button>
-            <button onClick="call0()" class="zero">0</button>
-            <button onClick="clearResult()" class="clear">Clear</button>
-        </div>
-        <div class="operators">
-            <button onClick="multiply()">X</button>
-            <button onClick="divide()">/</button>
-            <button onClick="add()">+</button>
-            <button onClick="substract()">-</button>
-            <button class="equal" onClick="calculateResult()">=</button>
-        </div>
-
-    </div> -->
-
 </body>
 
 </html>
