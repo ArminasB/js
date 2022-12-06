@@ -1,176 +1,271 @@
-// console.log(Boolean("")); // false
-// console.log(Boolean(0));  // false
-// console.log(Boolean("a"));  // true
-// console.log(Boolean(1));  // true
-// console.log(Boolean(-1)); // true
+function calcBmr() {
+    const heightEl = document.querySelector("#height");
+    const weightEl = document.querySelector("#weight");
+    const ageEl = document.querySelector("#age");
+    const height = Number(heightEl.value);
+    const weight = Number(weightEl.value);
+    const age = Number(ageEl.value);
+    const result = document.querySelector("#result");
 
-// console.log(Number(true)); // 1
-// console.log(Number(false));  // 0
+    const heightError = document.querySelector("#height-error");
+    const weightError = document.querySelector("#weight-error");
+    const ageError = document.querySelector("#age-error");
+    const genderError = document.querySelector("#gender-error");
+    const activityError = document.querySelector("#activity-error");
+    clearError();
 
+    const genderEl = document.querySelector("input[name='gender']:checked");
+    const activityEl = document.querySelector("input[name='activity-level']:checked");
 
-// let x = -3;
-// x = -x;
-// console.log(x);
+    let gender;
+    let activity;
 
-// console.log(4 **2);  //kvadratu 16
-// console.log(4 ** 1 / 2); //saknis 2
+    if (genderEl) {
+        gender = genderEl.value;
+    }
 
-// console.log(7 % 2);  // liekana 1 
-
-
-// let pirmasZodis = "Vardenis";
-// let antrasZodis = "Pavardenis";
-
-// let pilnaFraze = `${pirmasZodis} ${antrasZodis}`;
-// let kitaFraze = pirmasZodis + " " + antrasZodis;
-// console.log(pilnaFraze === kitaFraze);
-
-// console.log('1' + 2);  //12
-
-// const currentHours = Number(prompt("kiek dabar valandu?"));
-// const currentMinutes = Number(prompt("kiek dabar minuciu?"));
-
-// const shouldReduceHour = currentMinutes > 0;
-
-// const additionalHour = Number(shouldReduceHour);
-
-// const isNotToLate = Number(currentHours < 18);
-
-// const hourDifference = (18 - currentHours - additionalHour) * isNotToLate;
-// const minuteDifference = (60 - currentMinutes) * additionalHour * isNotToLate;
+    if (activityEl) {
+        activity = activityEl.value;
+    }
 
 
-// a 10
-// b -1
-// c 1
-// d 2
-// e 6
-// f 9px
-// g $45
-// h 2 
-// i nan
-// j "  -9  5"
-// k -14
-// l 1
-/// m un
-
-// let i = 0;
-// i += 3;
-// console.log(i);
-
-// i++;
-
-// console.log(i);
-
-// ++i;
-
-// console.log(i);
-
-// let y = 0;
-
-// console.log(y++);
-// console.log(++y);
+    const isHeightValid = height > 0;
+    const isWeightValid = weight > 0;
+    const isAgeValid = age > 0;
 
 
-// const color = prompt("What color?");
+    let isGenderValid = "male" === gender
+        || "female" === gender;
+    let isActivityValid = "sedentary" === activity ||
+        "lightly-active" === activity ||
+        "moderately-active" === activity ||
+        "very-active" === activity ||
+        "extra-active" === activity;
 
-// if (color === "red") {
-//     const year = prompt("what year?");
-//     if (Number(year) > 2010) {
-//         alert("Buy!");
-//     } else {
-//         const mileage = prompt("what mileage (km) ?");
-//         if (Number(mileage) < 50000) {
-//             alert("Buy!");
-//         } else {
-//             alert("Don't buy!");
-//         }
-//     }
-// } else if (color === "yellow") {
-//     const make = prompt("what make?");
-//     if (make === "ferrari") {
-//         alert("Buy!");
-//     } else {
-//         alert("Don't buy!");
-//     }
-// } else {
-//     alert("Don't buy!");
-// }
-
-
-// const weight = Number(prompt("Koks tavo svoris ?"));
-// const heightSquared = Number(prompt("Koks tavo ugis (m)?"))**2;
-// const bmi = weight / heightSquared;
-
-// if (bmi < 18.5) {
-//     alert(`your bmi is ${bmi}, you are underweight`);
-// } else if (bmi < 25){
-//     alert(`your bmi is ${bmi}, you are normal`);
-// } else if (bmi < 30){
-//     alert(`your bmi is ${bmi}, you are overweight`);
-// } else {
-//     alert(`your bmi is ${bmi}, you are obese`);
-// }
-
-
-// const weight = Number(prompt("koks tavo svoris?"));
-// const height = Number(prompt("koks tavo ugis ?"));
-// const age = Number(prompt("koks tavo amzius ?"));
-// const activityLevel = Number(prompt("koks jusu aktyvumo lygis ? ( 0, 1, 2, 3, 4)"));
-// const sex = prompt("kokia tavo lytis? (moteris / vyras)");
-
-// let bmr;
-// let dailyCal;
-
-// if (sex === "moteris") {
-//     bmr = 655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age);
-// } else {
-//     bmr = 66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age);
-// }
-
-// if (activityLevel === 0) {
-//     dailyCal = bmr * 1.2;
-// } else if (activityLevel === 1) {
-//     dailyCal = bmr * 1.375;
-// } else if (activityLevel === 2) {
-//     dailyCal = bmr * 1.555;
-// } else if (activityLevel === 3) {
-//     dailyCal = bmr * 1.725;
-// } else {
-//     dailyCal = bmr * 1.9;
-// }
-
-// alert(dailyCal);
-
-const budget = prompt("definite budget ? (y/n)");
-
-if (budget === "y") {
-    const champion = prompt("Known champion for it?(y/n)");
-    if (champion === "y"){
-        const clearScope = prompt("Clear project Scope? (y/n)");
-        if (clearScope === "y") {
-            const timescale = prompt("Achievable Timescalale? (y/n)");
-            if (timescale === "y") {
-                alert("Go for it.");
-            } else {
-                alert("Get more time.");
+    if (isHeightValid &&
+        isWeightValid &&
+        isAgeValid &&
+        isGenderValid &&
+        isActivityValid) {
+        if (gender === "male") {
+            if (activity === "sedentary") {
+                result.innerText = (66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age)) * 1.2;
+            } else if (activity === "lightly-active") {
+                result.innerText = (66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age)) * 1.375;
+            } else if (activity === "moderately-active") {
+                result.innerText = (66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age)) * 1.55;
+            } else if (activity === "very-active") {
+                result.innerText = (66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age)) * 1.725;
+            } else if (activity === "extra-active") {
+                result = (66.5 + (13.75 * weight) + (5.003 * height) - (6.75 * age)) * 1.9;
             }
         } else {
-            const profit = prompt("Happy to profit? (y/n)");
-            if (profit === "y") {
-                alert("Cash In");
-            } else {
-                alert("Explain why it matters");
+            if (activity === "sedentary") {
+                result.innerText = (655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)) * 1.2;
+            } else if (activity === "lightly-active") {
+                result.innerText = (655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)) * 1.375;
+            } else if (activity === "moderately-active") {
+                result.innerText = (655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)) * 1.55;
+            } else if (activity === "very-active") {
+                result.innerText = (655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)) * 1.725;
+            } else if (activity === "extra-active") {
+                result.innerText = (655.1 + (9.563 * weight) + (1.850 * height) - (4.676 * age)) * 1.9;
             }
         }
+        clearResult();
+        resultPop();
     } else {
-        alert("Leave it alone");
+        if (!isHeightValid) {
+            heightError.innerText = "Klaida";
+        }
+        if (!isWeightValid) {
+            weightError.innerText = "Klaida";
+        }
+        if (!isAgeValid) {
+            ageError.innerText = "Klaida";
+        }
+        if (!isGenderValid) {
+            genderError.innerText = "Klaida";
+        }
+        if (!isActivityValid) {
+            activityError.innerText = "Klaida";
+        }
     }
-} else  {
-    const funding = prompt("Alternative funding? (y/n)")
-    if (funding === "y") {
-        alert("Sort out funding");
-    } else {
-        alert("Leave it alone");
+    function clearResult() {
+        heightEl.value = "";
+        weightEl.value = "";
+        ageEl.value = "";
+
+        if (genderEl.checked === true) {
+            genderEl.checked = false;
+        }
+
+        if (activityEl.checked === true) {
+            activityEl.checked = false;
+        }
+    }
+
+    function clearError() {
+        heightError.innerText = "";
+        weightError.innerText = "";
+        ageError.innerText = "";
+        genderError.innerText = "";
+        activityError.innerText = "";
     }
 }
+
+const resultPopY = document.querySelector("#result-pop");
+const resultPopYClass = resultPopY.className;
+const isResultPopYValid = resultPopYClass === "result-pop active";
+
+function resultPop() {
+    if(!isResultPopYValid) {
+        resultPopY.className = "result-pop active";
+    }
+}
+
+function closeB() {
+    if(!isResultPopYValid) {
+        resultPopY.className = "result-pop";
+    }
+}
+
+
+
+
+
+function mode() {
+    const bodyEl = document.querySelector("#body");
+    const body = bodyEl.className;
+    const modeButtonEl = document.querySelector("#mode-button");
+
+    const isBodyValid = body === "mode";
+
+    if (!isBodyValid) {
+        bodyEl.className = "mode"
+        modeButtonEl.innerText = "Light"
+
+    } else {
+        bodyEl.className = ""
+        modeButtonEl.innerText = "Dark"
+    }
+}
+
+// const displayElement = document.querySelector("#display");
+// let temporaryValue;
+// let operationType;
+// let result;
+
+// function call1 () {
+//     const value = 1;
+//     displayElement.innerText += value;
+// }
+
+
+// function call2 () {
+//     const value = 2;
+//     displayElement.innerText += value;
+// }
+
+// function call3 () {
+//     const value = 3;
+//     displayElement.innerText += value;
+// }
+
+// function call4 () {
+//     const value = 4;
+//     displayElement.innerText += value;
+// }
+
+// function call5 () {
+//     const value = 5;
+//     displayElement.innerText += value;
+// }
+
+// function call6 () {
+//     const value = 6;
+//     displayElement.innerText += value;
+// }
+
+// function call7 () {
+//     const value = 7;
+//     displayElement.innerText += value;
+// }
+
+// function call8 () {
+//     const value = 8;
+//     displayElement.innerText += value;
+// }
+
+// function call9 () {
+//     const value = 9;
+//     displayElement.innerText += value;
+// }
+
+// function call0 () {
+//     const value = 0;
+//     displayElement.innerText += value;
+// }
+
+// function saveValue () {
+//     if(typeof temporaryValue === "number" &&
+//      typeof operationType !== "undefined") {
+//         if(operationType === "multiply") {
+//             result = temporaryValue * Number(displayElement.innerText);
+//         } else if (operationType === "divide") {
+//             result = temporaryValue / Number(displayElement.innerText);
+//         } else if(operationType === "add") {
+//             result = temporaryValue + Number(displayElement.innerText);
+//         } else if (operationType === "subtract"){
+//             result = temporaryValue - Number(displayElement.innerText);
+//         }
+//         temporaryValue = result;
+//     } else {
+//         temporaryValue = Number(displayElement.innerText);
+//     }
+// }
+
+// function multiply () {
+//     saveValue();
+//     displayElement.innerText = "";
+//     operationType = "multiply"
+// }
+
+// function divide () {
+//     saveValue();
+//     displayElement.innerText = "";
+//     operationType = "divide"
+// }
+
+// function add () {
+//     saveValue();
+//     displayElement.innerText = "";
+//     operationType = "add"
+// }
+
+// function subtract () {
+//     saveValue();
+//     displayElement.innerText = "";
+//     operationType = "subtract"
+// }
+
+// function calculateResult () {
+//     if(operationType === "multiply") {
+//         result = temporaryValue * Number(displayElement.innerText);
+//     } else if (operationType === "divide") {
+//         result = temporaryValue / Number(displayElement.innerText);
+//     } else if(operationType === "add") {
+//         result = temporaryValue + Number(displayElement.innerText);
+//     } else if (operationType === "subtract"){
+//         result = temporaryValue - Number(displayElement.innerText);
+//     }
+//     displayElement.innerText = result;
+//     temporaryValue = null;
+//     operationType = null;
+// }
+
+// function clearResult () {
+//     displayElement.innerText = "";
+//     temporaryValue = null;
+//     operationType = null;
+// }
