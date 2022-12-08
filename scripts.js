@@ -1,131 +1,98 @@
-// const GENERATECOLORBTN = document.querySelector("#generate-button");
-// const COLORVALUEL = document.querySelector("#color-value");
-// const COLORCONTAINER = document.querySelector("#color-container");
-
-// GENERATECOLORBTN.addEventListener("click", generateRandomColor);
-// window.addEventListener("load", generateRandomColor);
-
-// function generateRandomColor() {
-//     const RANDOMRGB = `rgb(${getRandomRGBNumber()},${getRandomRGBNumber()},${getRandomRGBNumber()})`;
-//     COLORCONTAINER.style.backgroundColor = RANDOMRGB;
-//     COLORVALUEL.textContent = RANDOMRGB;
-// }
-
-// function getRandomRGBNumber() {
-//     return Math.floor(Math.random() * 256);
-// }
+const HELPBTN = document.querySelector("#help-btn");
+HELPBTN.addEventListener("click", openComplaintForm);
+const CLOSEBTN = document.querySelector("#close-btn");
+CLOSEBTN.addEventListener("click", closeComplaintForm);
+const SUBMITBTN = document.querySelector("#submit-btn");
+SUBMITBTN.addEventListener("click", submitForm);
 
 
-// const OPENMODALBUTTON = document.querySelector("#modal-button");
-// const CLOSEMODALBUTTON = document.querySelector("#close-btn");
-// const ACCEPTMODALBUTTON = document.querySelector("#accept-btn");
-// const MODALEL = document.querySelector("#modal");
+const NAMEINPUT = document.querySelector("#name");
+const SURNAMEINPUT = document.querySelector("#surname");
+const EMAILINPUT = document.querySelector("#email");
+const COMPLAINT = document.querySelector("#complaint");
 
-// OPENMODALBUTTON.addEventListener("click", openModal);
-// CLOSEMODALBUTTON.addEventListener("click", closeModal);
-// ACCEPTMODALBUTTON.addEventListener("click", acceptTerms);
-// ACCEPTMODALBUTTON.addEventListener("click", closeModal);
-// MODALEL.addEventListener("click", closeOnOverlay);
+const RECEIVEDNAME = document.querySelector("#received-name");
+const RECEIVEDSURNAME = document.querySelector("#received-surname");
+const RECEIVEDEMAIL = document.querySelector("#received-email");
+const RECEIVEDCOMPLAINT = document.querySelector("#received-complaint");
+const COMPLAINTDATE = document.querySelector("#complaint-date");
+const ERRORMSG = document.querySelector("#error");
 
-// function openModal() {
-//     MODALEL.className = "modal active";
-// }
+const COMPLAINTFORM = document.querySelector("#submit-container");
 
-// function closeModal() {
-//     MODALEL.className = "modal";
-// }
-
-// function acceptTerms() {
-//     console.log("accepted");
-// }
-
-// function closeOnOverlay() {
-//     const cursorTarget = event.target;
-//     if(cursorTarget === MODALEL) {
-//         closeModal();
-//     }
-// }
-
-const STARTPOPELEMENT = document.querySelector("#start-pop");
-const WINDOWCONTAINERELEMENT = document.querySelector("#window-container");
-const SELECTMOVEELEMENT = document.querySelector("#select-move");
-const STARTPOPVALID = STARTPOPELEMENT.className === "start-pop active";
-const WINDOWCONTAINERVALID = WINDOWCONTAINERELEMENT.className === "window-container active";
-const SELECTMOVEVALID = SELECTMOVEELEMENT.className === "select-move active";
-const BUTTONELEMENT = document.querySelector("#start-game");
-
-const FIRST = document.querySelector("#one");
-const SECOND = document.querySelector("#two");
-const THIRD = document.querySelector("#three");
-const FOURTH = document.querySelector("#four");
-const FIFTH = document.querySelector("#five");
-const SIXTH = document.querySelector("#six");
-const SEVENTH = document.querySelector("#seven");
-const EIGHTH = document.querySelector("#eight");
-const NINETH = document.querySelector("#nine");
-
-BUTTONELEMENT.addEventListener("click", startGame);
-
-openPage();
-
-function openPage() {
-    const TEXTELEMENT = document.querySelector("#text");
-    STARTPOPELEMENT.className = "start-pop active";
-    TEXTELEMENT.innerText = "Welcome";
-    BUTTONELEMENT.innerText = "START GAME";
+function openComplaintForm() {
+    COMPLAINTFORM.style.opacity = "1";
 }
 
-function startGame() {
-    STARTPOPELEMENT.className = "start-pop";
-    WINDOWCONTAINERELEMENT.className = "window-container active";
-    SELECTMOVEELEMENT.className = "select-move active";
+function closeComplaintForm() {
+    COMPLAINTFORM.style.opacity = "0";
 }
 
-const XMARK = document.querySelector("#x-mark");
-XMARK.addEventListener('dragstart', dragStart);
-XMARK.addEventListener('dragend', dragEnd);
+function submitForm() {
+    const ISNAMEVALID = NAMEINPUT.value;
+    const ISSURNAMEVALID = SURNAMEINPUT.value;
+    const ISEMAILVALID = isEmailValid();
+    const ISCOMPLAINTVALID = COMPLAINT.value;
 
-const OMARK = document.querySelector("#o-mark");
-OMARK.addEventListener('dragstart', dragStart);
-OMARK.addEventListener('dragend', dragEnd);
+    if (ISNAMEVALID &&
+        ISSURNAMEVALID &&
+        ISEMAILVALID &&
+        ISCOMPLAINTVALID) {
+        removeError();
+        RECEIVEDNAME.innerHTML = NAMEINPUT.value;
+        RECEIVEDSURNAME.innerHTML = SURNAMEINPUT.value;
+        RECEIVEDEMAIL.innerHTML = EMAILINPUT.value;
+        RECEIVEDCOMPLAINT.innerHTML = COMPLAINT.value;
+        COMPLAINTDATE.innerHTML = new Date().toLocaleString();
+        clearInput();
+        closeComplaintForm()
+    } else {
+        removeError()
+        if (!ISNAMEVALID) {
+            NAMEINPUT.style.border = "1px solid red";
+            addError();
+        }
 
-function dragStart(e) {
-    e.dataTransfer.setData('text/plain', e.target.id);
-    setTimeout(() => {
-        e.target.classList.add('hide');
-    }, 0);
+        if (!ISSURNAMEVALID) {
+            SURNAMEINPUT.style.border = "1px solid red";
+            addError();
+        }
+
+        if (!ISEMAILVALID || !EMAILINPUT.value) {
+            EMAILINPUT.style.border = "1px solid red";
+            addError();
+        }
+
+        if (!ISCOMPLAINTVALID) {
+            COMPLAINT.style.border = "1px solid red";
+            addError();
+        }
+    }
 }
 
-function dragEnd(e) {
-    e.dataTransfer.getData('text/plain', e.target.id);
-    e.target.classList.remove('hide');
+function isEmailValid() {
+    if (EMAILINPUT.validity.typeMismatch) {
+        return false;
+    } else {
+        return true
+    }
 }
 
-const boxes = document.querySelectorAll('.grid-window');
-
-boxes.forEach(box => {
-    box.addEventListener('dragenter', dragEnter)
-    box.addEventListener('dragover', dragOver);
-    box.addEventListener('dragleave', dragLeave);
-    box.addEventListener('drop', drop);
-});
-
-function dragEnter(e) {
-    e.preventDefault();
-    e.target.classList.add('drag-over');
+function clearInput() {
+    NAMEINPUT.value = "";
+    SURNAMEINPUT.value = "";
+    EMAILINPUT.value = "";
+    COMPLAINT.value = "";
 }
 
-function dragOver(e) {
-    e.preventDefault();
-    e.target.classList.add('drag-over');
+function addError() {
+    ERRORMSG.innerHTML = "Please corect mistakes made in your complaint form.";
 }
 
-function dragLeave(e) {
-    e.target.classList.remove('drag-over');
+function removeError() {
+    ERRORMSG.innerHTML = "";
+    NAMEINPUT.style.border = "1px solid black";
+    SURNAMEINPUT.style.border = "1px solid black";
+    EMAILINPUT.style.border = "1px solid black";
+    COMPLAINT.style.border = "1px solid black";
 }
-
-function drop(e) {
-    e.target.classList.add('ixas');
-    e.target.classList.remove('drag-over');
-}
-

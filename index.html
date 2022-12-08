@@ -10,52 +10,59 @@
     <script src="scripts.js" defer></script>
 </head>
 
-<body>
-    <!-- <div class="container">
-        <button class="generate-button" id="generate-button">generate random color</button>
-        <div class="color-container" id="color-container">
-            
+<body class="wrapper">
+    <div class="result-container">
+        <div>
+            <span>First Name :</span>
+            <span id="received-name"></span>
         </div>
-        <span id="color-value"></span>
-    </div>
+        <div>
+            <span>Last Name :</span>
+            <span id="received-surname"></span>
+        </div>
+        <div>
+            <span>Email address :</span>
+            <span id="received-email"></span>
+        </div>
+        <div>
+            <span>Complaint :</span>
+            <span id="received-complaint"></span>
+        </div>
+        <div>
+            <span>Date of complaint :</span>
+            <span id="complaint-date"></span>
+        </div>
 
-    <div>
-        <button class="modal-btn" id="modal-button">Open Modal</button>
     </div>
-
-    <div class="modal" id="modal">
-        <div class="containerb">
-            <div class="container-top">
-                <button class="close-btn" id="close-btn">&times;</button>
+    
+    <div class="form-container">
+        <div class="submit-container" id="submit-container">
+            <button class="close-btn" id="close-btn">&#x2715; </button>
+            <p>We are here to help you, if you want to fill a complaint with us then please fill this form and submit it. We
+                are pushing ourlselves to meet all of our customers demands and will look into each and every complaint the
+                we receive.
+            </p>
+            <span class="error-msg" id="error"></span>
+    
+            <div>
+                <label for="name">First name:</label>
+                <input type="text" name="name" id="name" required>
             </div>
-            <div class="container-bottom">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, possimus fugiat facilis inventore atque est nesciunt cupiditate enim magnam obcaecati perferendis ut iusto temporibus, vitae quos iste, quia ea nisi.</p>
-                <button class="accept-btn" id="accept-btn">Accept</button>
+            <div>
+                <label for="surname">Last name:</label>
+                <input type="text" name="surname" id="surname" required >
             </div>
-        </div>
-    </div> -->
-    <div class="container">
-        <div class="start-pop" id="start-pop">
-            <span id="text"></span>
-            <button id="start-game" id="start-game"></button>
-        </div>
-        <div class="window-container" id="window-container">
-            <div class="grid-window one" id="one"></div>
-            <div class="grid-window two" id="two"></div>
-            <div class="grid-window three" id="three"></div>
-            <div class="grid-window four" id="four"></div>
-            <div class="grid-window five" id="five"></div>
-            <div class="grid-window six" id="six"></div>
-            <div class="grid-window seven" id="seven"></div>
-            <div class="grid-window eight" id="eight"></div>
-            <div class="grid-window nine" id="nine"></div>
-        </div>
-        <div class="select-move" id="select-move">
-            <div class="o-mark" id="o-mark" draggable="true">
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
             </div>
-            <div class="x-mark" id="x-mark" draggable="true">
+            <div>
+                <label for="complaint">Complaint:</label>
+                <textarea name="complaint" id="complaint" required></textarea>
             </div>
+            <button class="submit-btn" id="submit-btn">Submit</button>
         </div>
+        <button class="help-btn" id="help-btn">Help</button>
     </div>
 </body>
 

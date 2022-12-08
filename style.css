@@ -10,225 +10,83 @@ body {
 
 body {
     height: 100vh;
+    background-color: antiquewhite;
     position: relative;
+}
+
+
+.wrapper {
+    padding: 30px 20px;
+}
+
+.result-container div:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.result-container div span:first-child {
+    margin-right: 10px;
+}
+
+.form-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* .modal-btn,
-.accept-btn {
-    border: none;
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 20px;
-}
-
-.modal-btn {
-    background-color: cornflowerblue;
-}
-
-.accept-btn {
-    background-color: rgb(113, 143, 84);
-}
-
-.modal {
-    display: none;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.644);
+    flex-direction: column;
+    width: 350px;
     position: absolute;
-    justify-content: center;
-    align-items: center;
+    bottom: 30px;
+    right: 20px;
 }
 
-.modal.active {
-    display: flex;
-}
-
-.containerb {
-    width: 400px;
-    height: 300px;
-    background-color: aliceblue;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-}
-
-.container-top {
-    height: 50px;
-    padding: 20px;
-    background-color: rgb(66, 66, 168);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.container-bottom {
-    padding: 20px;
-    text-align: center;
-}
-
-
-body {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-}
-
-.container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
-
-.generate-button {
-    padding: 10px 20px;
-    border-radius: 20px;
-    color: aliceblue;
-    text-transform: uppercase;
-    border: none;
-    background-color: cornflowerblue;
-    transition: 0.5s;
-}
-
-.generate-button:hover {
-    background-color: rgb(44, 93, 185);
-}
-
-
-.color-container {
-    margin: 20px 0;
-    height: 100px;
-    width: 200px;
-    border: 1px solid black;
-    border-radius: 20px;
-} */
-
-.start-pop,
-.window-container {
-    display: none;
-}
-
-.container .grid-window {
-    margin: 5px;
-    background-color: blanchedalmond;
-    border: 1px solid rgba(255, 0, 0, 0);
-}
-
-.window-container.active {
-    display: grid;
-    width: 600px;
+.submit-container {
     height: 600px;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-.start-pop.active {
+    width: 100%;
+    padding: 20px;
+    background-color: rgb(219, 235, 241);
+    border: 1px solid black;
+    opacity: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: calc(50% - 10px);
-    left: calc(50% - 150px);
-    height: 200px;
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: rgb(90, 90, 33);
+    transition: 0.5s ease-in;
 }
 
-.start-pop.active span {
-    margin: 50px 0;
+.error-msg {
+    margin-bottom: 10px;
+    color: red;
 }
 
-.start-pop.active button {
+.submit-container div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    align-self: flex-end;
     border: none;
-    border-radius: 20px;
-    padding: 10px 20px;
-    background-color: rgb(102, 28, 43);
+    background-color: transparent;
 }
 
-.grid-window.one.nulis,
-.grid-window.two.nulis,
-.grid-window.three.nulis,
-.grid-window.four.nulis,
-.grid-window.five.nulis,
-.grid-window.six.nulis,
-.grid-window.seven.nulis,
-.grid-window.eight.nulis,
-.grid-window.nine.nulis {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("https://www.pngarts.com/files/2/Letter-O-PNG-High-Quality-Image.png");
-    background-size: contain;
+.submit-container input,
+.submit-container textarea {
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 5px;
 }
 
-.grid-window.one.ixas,
-.grid-window.two.ixas,
-.grid-window.three.ixas,
-.grid-window.four.ixas,
-.grid-window.five.ixas,
-.grid-window.six.ixas,
-.grid-window.seven.ixas,
-.grid-window.eight.ixas,
-.grid-window.nine.ixas {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url("https://w7.pngwing.com/pngs/668/489/png-transparent-x-men-logo-professor-x-cyclops-wolverine-x-men-logo-x-men-angle-fictional-characters-text.png");
-    background-size: contain;
-}
-
-.select-move {
-    display: none;
-}
-
-.select-move.active {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    bottom: 0;
-    left: calc(50% - 100px);
+.submit-container textarea {
     height: 100px;
-    width: 200px;
-    padding: 0 30px;
-    background-color: blanchedalmond;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    resize: none;
 }
 
-.select-move.active .o-mark {
-    background-image: url("https://www.pngarts.com/files/2/Letter-O-PNG-High-Quality-Image.png");
-    background-size: contain;
-    width: 40px;
-    height: 40px;
+.submit-btn,
+.help-btn {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(68, 66, 156);
+    color: white;
 }
 
-.x-mark {
-    background-image: url("https://w7.pngwing.com/pngs/668/489/png-transparent-x-men-logo-professor-x-cyclops-wolverine-x-men-logo-x-men-angle-fictional-characters-text.png");
-    background-size: contain;
-    width: 40px;
-    height: 40px;
-}
-
-.x-mark.hide {
-    visibility: hidden;
-}
-
-.o-mark.hide {
-    visibility: hidden;
-}
-
-.grid-window.drag-over {
-    border: 1px solid red;
+.help-btn {
+    margin-top: 20px;
+    align-self: flex-end;
 }
