@@ -18,13 +18,17 @@ const RECEIVEDCOMPLAINT = document.querySelector("#received-complaint");
 const COMPLAINTDATE = document.querySelector("#complaint-date");
 const ERRORMSG = document.querySelector("#error");
 
-const COMPLAINTFORM = document.querySelector("#submit-container");
+const COMPLAINTFORM = document.querySelector("#form-container");
 
 function openComplaintForm() {
+    // COMPLAINTFORM.style.display = "flex";
+    COMPLAINTFORM.style.visibility = "visible";
     COMPLAINTFORM.style.opacity = "1";
 }
 
 function closeComplaintForm() {
+    // COMPLAINTFORM.style.display = "none";
+    COMPLAINTFORM.style.visibility = "hidden";
     COMPLAINTFORM.style.opacity = "0";
 }
 

@@ -32,8 +32,9 @@ body {
     flex-direction: column;
     width: 350px;
     position: absolute;
-    bottom: 30px;
+    bottom: 90px;
     right: 20px;
+    visibility: visible;
 }
 
 .submit-container {
@@ -42,7 +43,7 @@ body {
     padding: 20px;
     background-color: rgb(219, 235, 241);
     border: 1px solid black;
-    opacity: 0;
+    transition: opacity 1s ease;
     display: flex;
     flex-direction: column;
     transition: 0.5s ease-in;
@@ -88,5 +89,7 @@ body {
 
 .help-btn {
     margin-top: 20px;
-    align-self: flex-end;
+    position: absolute;
+    bottom: 30px;
+    right: 20px;
 }
