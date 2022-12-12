@@ -32,9 +32,13 @@ body {
     flex-direction: column;
     width: 350px;
     position: absolute;
-    bottom: 90px;
+    bottom: -900px;
     right: 20px;
-    visibility: visible;
+    transition: all 0.5s ease;
+}
+
+.form-container.active {
+    bottom: 90px;
 }
 
 .submit-container {
