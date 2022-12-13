@@ -31,7 +31,7 @@ function emailIsValid() {
 }
 
 function isInputValid() {
-    if (!nameInput.value || !surnameInput.value || !emailInput.value && !emailIsValid() || !complaint.value) {
+    if (!nameInput.value || !surnameInput.value || !emailInput.value || !emailIsValid() || !complaint.value) {
         return false
     }
     return true
@@ -144,3 +144,4 @@ function submitForm() {
         }
     }
 }
+
