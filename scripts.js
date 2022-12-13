@@ -11,6 +11,7 @@ const receivedEmail = document.querySelector("#received-email");
 const receivedComplaint = document.querySelector("#received-complaint");
 const complaintDate = document.querySelector("#complaint-date");
 const errorMessage = document.querySelector("#error");
+const resultContainer = document.querySelector("#result-container")
 const complaintForm = document.querySelector("#form-container");
 
 helpButton.addEventListener("click", openComplaintForm);
@@ -29,6 +30,13 @@ function emailIsValid() {
     }
 }
 
+function isInputValid() {
+    if (!nameInput.value || !surnameInput.value || !emailInput.value && !emailIsValid() || !complaint.value) {
+        return false
+    }
+    return true
+}
+
 function clearInput() {
     nameInput.value = "";
     surnameInput.value = "";
@@ -36,16 +44,48 @@ function clearInput() {
     complaint.value = "";
 }
 
-function placeData() {
-    receivedName.innerHTML = nameInput.value;
-    receivedSurname.innerHTML = surnameInput.value;
-    receivedEmail.innerHTML = emailInput.value;
-    receivedComplaint.innerHTML = complaint.value;
-    complaintDate.innerHTML = new Date().toLocaleString();
+// function placeData() {
+//     receivedName.innerText = nameInput.value;
+//     receivedSurname.innerText = surnameInput.value;
+//     receivedEmail.innerText = emailInput.value;
+//     receivedComplaint.innerText = complaint.value;
+//     complaintDate.innerText = new Date().toLocaleString();
+// }
+
+// function clearData() {
+//     receivedName.innerText = "";
+//     receivedSurname.innerText = "";
+//     receivedEmail.innerText = "";
+//     receivedComplaint.innerText = "";
+//     complaintDate.innerText = "";
+// }
+
+function addParagraphContainer() {
+    const paragraphContainer = document.createElement("div");
+    paragraphContainer.classList.add("paragraph-container");
+    paragraphContainer.append(addParagraph("First Name: ", "first-name" , nameInput.value));
+    paragraphContainer.append(addParagraph("Last Name: ", "last-name" , surnameInput.value));
+    paragraphContainer.append(addParagraph("Email address : ", "email" , emailInput.value));
+    paragraphContainer.append(addParagraph("Complaint : ", "complaint" , complaint.value));
+    paragraphContainer.append(addParagraph("Complaint-time : ", "date" , new Date().toLocaleString()));
+
+    return paragraphContainer;
+}
+
+function addParagraph(title, valueId, spanContent) {
+    const paragraph = document.createElement("p");
+    const paragraphValue = document.createElement("span");
+    paragraph.textContent = title;
+    paragraph.append(paragraphValue);
+    paragraphValue.id = valueId;
+    paragraph.classList.add("paragraph");
+    paragraphValue.textContent = spanContent;
+
+    return paragraph;
 }
 
 function addError() {
-    errorMessage.innerHTML = "Please corect mistakes made in your complaint form.";
+    errorMessage.innerText = "Please corect mistakes made in your complaint form.";
 }
 
 function addErrorBorder(a) {
@@ -57,15 +97,17 @@ function addNormalBorder(a) {
 }
 
 function removeError() {
-    errorMessage.innerHTML = "";
-    nameInput.style.border = addNormalBorder(nameInput);
-    surnameInput.style.border = addNormalBorder(surnameInput);
-    emailInput.style.border = addNormalBorder(emailInput);
-    complaint.style.border = addNormalBorder(complaint);
+    errorMessage.innerText = "";
+    addNormalBorder(nameInput);
+    addNormalBorder(surnameInput);
+    addNormalBorder(emailInput);
+    addNormalBorder(complaint);
 }
 
 function closeComplaintForm() {
     complaintForm.classList.remove("active");
+    removeError();
+    // clearData();
 }
 
 function submitForm() {
@@ -74,34 +116,30 @@ function submitForm() {
     const isEmailValid = emailIsValid();
     const isComplaintValid = complaint.value;
 
-
-    if (isNameValid &&
-        isSurnameValid &&
-        isEmailValid &&
-        isComplaintValid) {
+    if (isInputValid()) {
         removeError();
-        placeData();
+        resultContainer.append(addParagraphContainer());
         clearInput();
         setTimeout(closeComplaintForm, 200);
     } else {
         removeError()
         if (!isNameValid) {
-            nameInput.style.border = addErrorBorder(nameInput);
+            addErrorBorder(nameInput);
             addError();
         }
 
         if (!isSurnameValid) {
-            surnameInput.style.border = addErrorBorder(surnameInput);
+            addErrorBorder(surnameInput);
             addError();
         }
 
         if (!isEmailValid || !emailInput.value) {
-            emailInput.style.border = addErrorBorder(emailInput);
+            addErrorBorder(emailInput);
             addError();
         }
 
         if (!isComplaintValid) {
-            complaint.style.border = addErrorBorder(complaint);
+            addErrorBorder(complaint);
             addError();
         }
     }

@@ -19,12 +19,12 @@ body {
     padding: 30px 20px;
 }
 
-.result-container div:not(:last-child) {
-    margin-bottom: 5px;
+.paragraph-container {
+    margin-bottom: 20px;
 }
 
-.result-container div span:first-child {
-    margin-right: 10px;
+.paragraph {
+    margin: 0;
 }
 
 .form-container {
@@ -96,4 +96,5 @@ body {
     position: absolute;
     bottom: 30px;
     right: 20px;
+    box-shadow: rgba(0, 0, 0, 0.411) 0 0 10px 5px;
 }
