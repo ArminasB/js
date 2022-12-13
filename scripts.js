@@ -1,101 +1,64 @@
-const helpButton = document.querySelector("#help-btn");
-helpButton.addEventListener("click", openComplaintForm);
-const closeButton = document.querySelector("#close-btn");
-closeButton.addEventListener("click", closeComplaintForm);
-const submitButton = document.querySelector("#submit-btn");
-submitButton.addEventListener("click", submitForm);
+// const selectElement = document.querySelector("#ice-cream");
+// selectElement.addEventListener("change", selectListener);
 
+// function selectListener(event) {
+//     console.log("event" , event);
+//     console.log("event.target", event.targer);
+//     console.log("event.target.value", event.target.value);
+//     console.log("selectElement", selectElement);
+// }
 
-const nameInput = document.querySelector("#name");
-const surnameInput = document.querySelector("#surname");
-const emailInput = document.querySelector("#email");
-const complaint = document.querySelector("#complaint");
+// window.addEventListener("resize", function(evt) {
+//     console.log("resize");
+// });
 
-const receivedName = document.querySelector("#received-name");
-const receivedSurname = document.querySelector("#received-surname");
-const receivedEmail = document.querySelector("#received-email");
-const receivedComplaint = document.querySelector("#received-complaint");
-const complaintDate = document.querySelector("#complaint-date");
-const errorMessage = document.querySelector("#error");
+// const changeLogEl = document.querySelector("#change-log");
+// const genderEl = document.querySelector("#gender");
+// const ageEl = document.querySelector("#age");
 
-const complaintForm = document.querySelector("#form-container");
+// function changeListener(event) {
+//     const selectName = event.target.name;
+//     const selectValue = event.target.value;
 
-function openComplaintForm() {
-    complaintForm.classList.add("active");
+//     const text = `User has changed ${selectName} select with a value ${selectValue}`
+
+//     changeLogEl.innerText = text;
+// }
+
+// ageEl.addEventListener("change", changeListener);
+// genderEl.addEventListener("change", changeListener);
+
+const firstNumber = document.querySelector("#first");
+const secondNumber = document.querySelector("#second");
+
+const multiplyButton = document.querySelector("#multiply");
+const divideButton = document.querySelector("#divide");
+
+const resultEl = document.querySelector("#result");
+
+multiplyButton.addEventListener("click", function() {
+    const firstValue = getElementValue(firstNumber);
+    const secondValue = getElementValue(secondNumber);
+    const resultValue = multiply(firstValue, secondValue);
+    return resultEl.innerHTML = resultValue;
+});
+
+divideButton.addEventListener("click", function() {
+    const firstValue = getElementValue(firstNumber);
+    const secondValue = getElementValue(secondNumber);
+    const resultValue = divide(firstValue, secondValue);
+    return resultEl.innerHTML = resultValue;
+});
+
+function getElementValue(element) {
+    const elementValue = Number(element.value);
+    return elementValue;
 }
 
-function emailIsValid() {
-    if (emailInput.validity.typeMismatch) {
-        return false;
-    } else {
-        return true
-    }
+function multiply(a, b) {
+    return a * b;
 }
 
-function clearInput() {
-    nameInput.value = "";
-    surnameInput.value = "";
-    emailInput.value = "";
-    complaint.value = "";
+function divide(a, b) {
+    return a / b;
 }
-
-function addError() {
-    errorMessage.innerHTML = "Please corect mistakes made in your complaint form.";
-}
-
-function removeError() {
-    errorMessage.innerHTML = "";
-    nameInput.style.border = "1px solid black";
-    surnameInput.style.border = "1px solid black";
-    emailInput.style.border = "1px solid black";
-    complaint.style.border = "1px solid black";
-}
-
-function closeComplaintForm() {
-    complaintForm.classList.remove("active");
-}
-
-function submitForm() {
-    const isNameValid = nameInput.value;
-    const isSurnameValid = surnameInput.value;
-    const isEmailValid = emailIsValid();
-    const isComplaintValid = complaint.value;
-
-
-    if (isNameValid &&
-        isSurnameValid &&
-        isEmailValid &&
-        isComplaintValid) {
-        removeError();
-        receivedName.innerHTML = nameInput.value;
-        receivedSurname.innerHTML = surnameInput.value;
-        receivedEmail.innerHTML = emailInput.value;
-        receivedComplaint.innerHTML = complaint.value;
-        complaintDate.innerHTML = new Date().toLocaleString();
-        clearInput();
-        closeComplaintForm()
-    } else {
-        console.log("ne");
-        removeError()
-        if (!isNameValid) {
-            nameInput.style.border = "1px solid red";
-            addError();
-        }
-
-        if (!isSurnameValid) {
-            surnameInput.style.border = "1px solid red";
-            addError();
-        }
-
-        if (!isEmailValid || !emailInput.value) {
-            emailInput.style.border = "1px solid red";
-            addError();
-        }
-
-        if (!isComplaintValid) {
-            complaint.style.border = "1px solid red";
-            addError();
-        }
-    }
-}
-

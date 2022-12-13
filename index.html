@@ -10,60 +10,21 @@
     <script src="scripts.js" defer></script>
 </head>
 
-<body class="wrapper">
-    <div class="result-container">
-        <div>
-            <span>First Name :</span>
-            <span id="received-name"></span>
-        </div>
-        <div>
-            <span>Last Name :</span>
-            <span id="received-surname"></span>
-        </div>
-        <div>
-            <span>Email address :</span>
-            <span id="received-email"></span>
-        </div>
-        <div>
-            <span>Complaint :</span>
-            <span id="received-complaint"></span>
-        </div>
-        <div>
-            <span>Date of complaint :</span>
-            <span id="complaint-date"></span>
-        </div>
+<body id="body">
+<div class="container">
+    <div>
+        <label for="first">1st Number</label>
+        <input type="text" name="first" id="first">
+    </div>
+    <div>
+        <label for="second">2st Number</label>
+        <input type="text" name="second" id="second">
+    </div>
 
-    </div>
-    
-    <div class="form-container" id="form-container">
-        <div class="submit-container" id="submit-container">
-            <button class="close-btn" id="close-btn">&#x2715; </button>
-            <p>We are here to help you, if you want to fill a complaint with us then please fill this form and submit it. We
-                are pushing ourlselves to meet all of our customers demands and will look into each and every complaint the
-                we receive.
-            </p>
-            <span class="error-msg" id="error"></span>
-    
-            <div>
-                <label for="name">First name:</label>
-                <input type="text" name="name" id="name" required>
-            </div>
-            <div>
-                <label for="surname">Last name:</label>
-                <input type="text" name="surname" id="surname" required >
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required>
-            </div>
-            <div>
-                <label for="complaint">Complaint:</label>
-                <textarea name="complaint" id="complaint" required></textarea>
-            </div>
-            <button class="submit-btn" id="submit-btn">Submit</button>
-        </div>
-    </div>
-    <button class="help-btn" id="help-btn">Help</button>
+    <button id="multiply">Muliply</button>
+    <button id="divide">Divivde</button>
+    <span id="result"></span>
+</div>
 </body>
 
 </html>
