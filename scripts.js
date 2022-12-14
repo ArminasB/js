@@ -1,147 +1,55 @@
-const helpButton = document.querySelector("#help-btn");
-const closeButton = document.querySelector("#close-btn");
-const submitButton = document.querySelector("#submit-btn");
-const nameInput = document.querySelector("#name");
-const surnameInput = document.querySelector("#surname");
-const emailInput = document.querySelector("#email");
-const complaint = document.querySelector("#complaint");
-const receivedName = document.querySelector("#received-name");
-const receivedSurname = document.querySelector("#received-surname");
-const receivedEmail = document.querySelector("#received-email");
-const receivedComplaint = document.querySelector("#received-complaint");
-const complaintDate = document.querySelector("#complaint-date");
-const errorMessage = document.querySelector("#error");
-const resultContainer = document.querySelector("#result-container")
-const complaintForm = document.querySelector("#form-container");
+const inputEl = document.querySelector("#todo-input");
+const todoButtonEl = document.querySelector("#todo-btn");
+const todoListEl = document.querySelector("#todo-list");
+const doneListEl = document.querySelector("#done-list");
 
-helpButton.addEventListener("click", openComplaintForm);
-closeButton.addEventListener("click", closeComplaintForm);
-submitButton.addEventListener("click", submitForm);
 
-function openComplaintForm() {
-    complaintForm.classList.add("active");
-}
+todoButtonEl.addEventListener("click", addTodo);
 
-function emailIsValid() {
-    if (emailInput.validity.typeMismatch) {
-        return false;
-    } else {
-        return true
+function addTodo() {
+    inputEl.style.border = "";
+    const inputValue = inputEl.value;
+
+    if (!inputValue) {
+        inputEl.style.border = "1px solid red";
+        return
     }
+    inputEl.value = "";
+    const todo = createNewTodo(inputValue);
+    todoListEl.append(todo);
 }
 
-function isInputValid() {
-    if (!nameInput.value || !surnameInput.value || !emailInput.value || !emailIsValid() || !complaint.value) {
-        return false
+function createDoneElement(textNode) {
+    const newTodo = document.createElement("li");
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "X";
+    closeButton.addEventListener("click", deleteTodo);
+    function deleteTodo() {
+        newTodo.remove();
     }
-    return true
+
+    newTodo.append(textNode, closeButton);
+    doneListEl.append(newTodo);
 }
 
-function clearInput() {
-    nameInput.value = "";
-    surnameInput.value = "";
-    emailInput.value = "";
-    complaint.value = "";
-}
+function createNewTodo(text) {
+    const textNode = document.createTextNode(text);
+    const newTodo = document.createElement("li");
+    const doneButton = document.createElement("button");
+    const closeButton = document.createElement("button");
+    doneButton.textContent = "V";
+    closeButton.textContent = "X";
+    newTodo.append(textNode, doneButton, closeButton);
 
-// function placeData() {
-//     receivedName.innerText = nameInput.value;
-//     receivedSurname.innerText = surnameInput.value;
-//     receivedEmail.innerText = emailInput.value;
-//     receivedComplaint.innerText = complaint.value;
-//     complaintDate.innerText = new Date().toLocaleString();
-// }
-
-// function clearData() {
-//     receivedName.innerText = "";
-//     receivedSurname.innerText = "";
-//     receivedEmail.innerText = "";
-//     receivedComplaint.innerText = "";
-//     complaintDate.innerText = "";
-// }
-
-function addParagraphContainer() {
-    const paragraphContainer = document.createElement("div");
-    paragraphContainer.classList.add("paragraph-container");
-    paragraphContainer.append(addParagraph("First Name: ", "first-name" , nameInput.value));
-    paragraphContainer.append(addParagraph("Last Name: ", "last-name" , surnameInput.value));
-    paragraphContainer.append(addParagraph("Email address : ", "email" , emailInput.value));
-    paragraphContainer.append(addParagraph("Complaint : ", "complaint" , complaint.value));
-    paragraphContainer.append(addParagraph("Complaint-time : ", "date" , new Date().toLocaleString()));
-
-    return paragraphContainer;
-}
-
-function addParagraph(title, valueId, spanContent) {
-    const paragraph = document.createElement("p");
-    const paragraphValue = document.createElement("span");
-    paragraph.textContent = title;
-    paragraph.append(paragraphValue);
-    paragraphValue.id = valueId;
-    paragraph.classList.add("paragraph");
-    paragraphValue.textContent = spanContent;
-
-    return paragraph;
-}
-
-function addError() {
-    errorMessage.innerText = "Please corect mistakes made in your complaint form.";
-}
-
-function addErrorBorder(a) {
-    a.style.border = "1px solid red";
-}
-
-function addNormalBorder(a) {
-    a.style.border = "1px solid black";
-}
-
-function removeError() {
-    errorMessage.innerText = "";
-    addNormalBorder(nameInput);
-    addNormalBorder(surnameInput);
-    addNormalBorder(emailInput);
-    addNormalBorder(complaint);
-}
-
-function closeComplaintForm() {
-    complaintForm.classList.remove("active");
-    removeError();
-    // clearData();
-}
-
-function submitForm() {
-    const isNameValid = nameInput.value;
-    const isSurnameValid = surnameInput.value;
-    const isEmailValid = emailIsValid();
-    const isComplaintValid = complaint.value;
-
-    if (isInputValid()) {
-        removeError();
-        resultContainer.append(addParagraphContainer());
-        clearInput();
-        setTimeout(closeComplaintForm, 200);
-    } else {
-        removeError()
-        if (!isNameValid) {
-            addErrorBorder(nameInput);
-            addError();
-        }
-
-        if (!isSurnameValid) {
-            addErrorBorder(surnameInput);
-            addError();
-        }
-
-        if (!isEmailValid || !emailInput.value) {
-            addErrorBorder(emailInput);
-            addError();
-        }
-
-        if (!isComplaintValid) {
-            addErrorBorder(complaint);
-            addError();
-        }
+    function deleteTodo() {
+        newTodo.remove();
     }
-}
 
+    closeButton.addEventListener("click", deleteTodo);
+    doneButton.addEventListener("click", function() {
+        deleteTodo();
+        createDoneElement(textNode);
+    })
+
+    return newTodo;
+}

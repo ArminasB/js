@@ -11,42 +11,17 @@
 </head>
 
 <body class="wrapper">
-    <div class="main-container">
-        <div class="result-container" id="result-container">
-
-        </div>
-        
-        <div class="form-container" id="form-container">
-            <div class="submit-container" id="submit-container">
-                <button class="close-btn" id="close-btn">&#x2715; </button>
-                <p>We are here to help you, if you want to fill a complaint with us then please fill this form and submit it. We
-                    are pushing ourlselves to meet all of our customers demands and will look into each and every complaint that
-                    we receive.
-                </p>
-                <span class="error-msg" id="error"></span>
-        
-                <div>
-                    <label for="name">First name:</label>
-                    <input type="text" name="name" id="name" required>
-                </div>
-                <div>
-                    <label for="surname">Last name:</label>
-                    <input type="text" name="surname" id="surname" required >
-                </div>
-                <div>
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" id="email" required>
-                </div>
-                <div>
-                    <label for="complaint">Complaint:</label>
-                    <textarea name="complaint" id="complaint" required></textarea>
-                </div>
-                <button class="submit-btn" id="submit-btn">Submit</button>
-            </div>
-        </div>
-        <button class="help-btn" id="help-btn">Help</button>
+    <div>
+        <h1>Add to do.</h1>
+        <input type="text" name="todo" id="todo-input">
+        <button id="todo-btn">Add</button>
+        <h2>To do list.</h2>
+        <ul id="todo-list"></ul>
     </div>
-    
+    <div>
+        <h2>Done list.</h2>
+        <ul id="done-list"></ul>
+    </div>
 </body>
 
 </html>
