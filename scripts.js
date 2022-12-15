@@ -142,6 +142,7 @@ const expensesFieldEl = document.querySelector("#expenses");
 const budgetInputEl = document.querySelector("#budget-input");
 const submitBudgetButton = document.querySelector("#submit-budget");
 const remainingBudgetEl = document.querySelector("#remaining-budget");
+const remainingBudgetParagraphEl = document.querySelector("#remaining-budget-paragraph");
 const dateEl = document.querySelector("#date");
 const spentInputEl = document.querySelector("#spent-amount");
 const expensesTypeEl = document.querySelector("#expenses-type");
@@ -150,7 +151,7 @@ const submitExpenseButton = document.querySelector("#submit-expense");
 const expensesList = document.querySelector("#expenses-list");
 
 selectField.addEventListener("change", changeField);
-submitBudgetButton.addEventListener("click", showBudget);
+submitBudgetButton.addEventListener("click", addBudget);
 submitExpenseButton.addEventListener("click", submitExpense);
 
 function changeField(event) {
@@ -164,14 +165,14 @@ function changeField(event) {
 }
 
 function calculateBudget(expenses) {
-    let leftBudget;
+    let remainingBudget;
     if(expenses) {
-        leftBudget = Number(remainingBudgetEl.textContent) - Number(expenses);
-        console.log(leftBudget);
+        remainingBudget = Number(remainingBudgetEl.textContent) - Number(expenses);
     } else {
-        leftBudget = Number(budgetInputEl.value);
+        remainingBudget = budgetInputEl.value;
+        console.log(remainingBudget);
     }
-    return leftBudget;
+    return remainingBudget;
 }
 
 function disableBudgetInput() {
@@ -184,8 +185,9 @@ function disableBudgetInput() {
     }
 }
 
-function showBudget() {
-    remainingBudgetEl.textContent = `Current budget left after expenses: ${calculateBudget()}`;
+function addBudget() {
+    remainingBudgetParagraphEl.textContent = "Current budget left after expenses: ";
+    remainingBudgetEl.textContent = calculateBudget();
     disableBudgetInput()
 }
 
@@ -210,11 +212,6 @@ function addParagraph(text, value) {
     return paragraph;
 }
 
-function expensesType() {
-    
-
-}
-
 function createExpenseContainer() {
     const expenseContainer = document.createElement("div");
     expenseContainer.classList = "expense-container"
@@ -230,7 +227,7 @@ function createExpenseContainer() {
 function submitExpense() {
     if(formIsValid()) {
         createExpenseContainer();
-        remainingBudgetEl.textContent = calculateBudget(spentInputEl.value);
+        remainingBudgetEl.textContent = calculateBudget(remainingBudgetEl.textContent);
         clearInput();
     }
 }
