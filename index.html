@@ -11,17 +11,50 @@
 </head>
 
 <body class="wrapper">
-    <div>
-        <h1>Add to do.</h1>
-        <input type="text" name="todo" id="todo-input">
-        <button id="todo-btn">Add</button>
-        <h2>To do list.</h2>
-        <ul id="todo-list"></ul>
+    <div class="main-container">
+        <div class="left-side">
+            <select name="change-window" id="change-window" class="change-window">
+                <option value="current-budget" id="budget-option">Current budget</option>
+                <option value="add-expense" id="expense-option">Add expense</option>
+            </select>
+            <div class="budget" id="budget">
+                <label for="budget">Budget:</label>
+                <input type="number" id="budget-input">
+                <span class="remaining-budget" id="remaining-budget"></span>
+                <button id="submit-budget">Submit</button>
+            </div>
+            <div class="expenses" id="expenses">
+                <div>
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" id="date">
+                </div>
+                <div>
+                    <label for="spent-amount">Spent amount:</label>
+                    <input type="number" name="spent-amount" id="spent-amount">
+                </div>
+                <div>
+                    <label for="expenses-type">Expenses type:</label>
+                    <select name="expenses-type" id="expenses-type">
+                        <option value="groceries" id="groceries">Groceries</option>
+                        <option value="clothing" id="clothing">Clothing</option>
+                        <option value="savings" id="savings">Savings</option>
+                        <option value="car" id="car">Car</option>
+                        <option value="books" id="books">Books</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="notes">Notes:</label>
+                    <textarea name="notes" id="notes" class="notes"></textarea>
+                </div>
+                <button id="submit-expense">Submit</button>
+            </div>
+        </div>
+        <div class="right-side">
+            <div class="expenses-list" id="expenses-list">
+            </div>
+        </div>
     </div>
-    <div>
-        <h2>Done list.</h2>
-        <ul id="done-list"></ul>
-    </div>
+    
 </body>
 
 </html>
