@@ -134,17 +134,19 @@
 //         }
 //     }
 // }
-
-
+const btn = document.querySelector("#btn");
+btn.addEventListener("click", function() {
+    console.log(remainingBudgetParagraph);
+})
 const selectField = document.querySelector("#change-window");
-const budgetFieldEl = document.querySelector("#budget");
+const budgetFieldEl = document.querySelector("#budget-field");
 const expensesFieldEl = document.querySelector("#expenses");
 const budgetInputEl = document.querySelector("#budget-input");
 const submitBudgetButton = document.querySelector("#submit-budget");
-const remainingBudgetEl = document.querySelector("#remaining-budget");
-const remainingBudgetParagraphEl = document.querySelector("#remaining-budget-paragraph");
+const remainingBudgetParagraph = document.querySelector("#remaining-budget-paragraph");
+const budgetSum = addBudgetParagraph;
 const dateEl = document.querySelector("#date");
-const spentInputEl = document.querySelector("#spent-amount");
+const spentInputEl = document.querySelector("#spent-amount-input");
 const expensesTypeEl = document.querySelector("#expenses-type");
 const notesEl = document.querySelector("#notes");
 const submitExpenseButton = document.querySelector("#submit-expense");
@@ -155,44 +157,52 @@ submitBudgetButton.addEventListener("click", addBudget);
 submitExpenseButton.addEventListener("click", submitExpense);
 
 function changeField(event) {
-    if(event.target.value === "current-budget") {
+    if (event.target.value === "current-budget") {
         budgetFieldEl.style.display = "flex";
         expensesFieldEl.style.display = "none";
-    } else if(event.target.value === "add-expense") {
+    } else if (event.target.value === "add-expense") {
         budgetFieldEl.style.display = "none";
         expensesFieldEl.style.display = "flex";
     }
 }
 
-function calculateBudget(expenses) {
-    let remainingBudget;
-    if(expenses) {
-        remainingBudget = Number(remainingBudgetEl.textContent) - Number(expenses);
+function addBudgetParagraph(expense) {
+    const budgetParagraphEl = document.createElement("p");
+    const budgetSumEl = document.createElement("span");
+    budgetParagraphEl.id = "remaining-budget-paragraph";
+    budgetParagraphEl.textContent = "Current balance after expenses: ";
+    if(!expense) {
+        budgetSumEl.textContent = budgetInputEl.value;
+        budgetParagraphEl.append(budgetSumEl);
     } else {
-        remainingBudget = budgetInputEl.value;
-        console.log(remainingBudget);
+        budgetSumEl.textContent = Number(budgetSumEl.textContent) - Number(expense);
     }
+
+    return budgetParagraphEl;
+}
+
+function addBudget() {
+    budgetFieldEl.append(addBudgetParagraph());
+    disableBudgetInput()
+}
+
+function calculateBudget(expense) {
+    const remainingBudget = Number(budgetSumEl.textContent) - Number(expense);
     return remainingBudget;
 }
 
 function disableBudgetInput() {
-    if(budgetInputEl){
+    if (budgetInputEl) {
         budgetInputEl.disabled = true;
         submitBudgetButton.disabled = true;
-    }else{
+    } else {
         budgetInputEl.disabled = false;
         submitBudgetButton.disabled = false;
     }
 }
 
-function addBudget() {
-    remainingBudgetParagraphEl.textContent = "Current budget left after expenses: ";
-    remainingBudgetEl.textContent = calculateBudget();
-    disableBudgetInput()
-}
-
 function formIsValid() {
-    if(dateEl.value && spentInputEl.value && expensesTypeEl.value && notesEl.value) {
+    if (dateEl.value && spentInputEl.value && expensesTypeEl.value && notesEl.value) {
         return true
     }
 }
@@ -216,7 +226,7 @@ function createExpenseContainer() {
     const expenseContainer = document.createElement("div");
     expenseContainer.classList = "expense-container"
     expenseContainer.append(addParagraph("Date: ", dateEl.value));
-    expenseContainer.append(addParagraph("Spent amount: ", spentInputEl.value ));
+    expenseContainer.append(addParagraph("Spent amount: ", spentInputEl.value));
     expenseContainer.append(addParagraph("Expenses type: ", expensesTypeEl.options[expensesTypeEl.selectedIndex].value));
     expenseContainer.append(addParagraph("Notes: ", notesEl.value));
     expensesList.append(expenseContainer);
@@ -225,9 +235,11 @@ function createExpenseContainer() {
 }
 
 function submitExpense() {
-    if(formIsValid()) {
+    if (formIsValid()) {
         createExpenseContainer();
-        remainingBudgetEl.textContent = calculateBudget(remainingBudgetEl.textContent);
+        budgetFieldEl.removeChild(addBudgetParagraph());
+        budgetFieldEl.append(addBudgetParagraph(spentInputEl.value));
         clearInput();
     }
 }
+
