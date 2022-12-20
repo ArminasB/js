@@ -1,245 +1,193 @@
-// const helpButton = document.querySelector("#help-btn");
-// const closeButton = document.querySelector("#close-btn");
-// const submitButton = document.querySelector("#submit-btn");
-// const nameInput = document.querySelector("#name");
-// const surnameInput = document.querySelector("#surname");
-// const emailInput = document.querySelector("#email");
-// const complaint = document.querySelector("#complaint");
-// const receivedName = document.querySelector("#received-name");
-// const receivedSurname = document.querySelector("#received-surname");
-// const receivedEmail = document.querySelector("#received-email");
-// const receivedComplaint = document.querySelector("#received-complaint");
-// const complaintDate = document.querySelector("#complaint-date");
-// const errorMessage = document.querySelector("#error");
-// const resultContainer = document.querySelector("#result-container")
-// const complaintForm = document.querySelector("#form-container");
+const gameScreenEl = document.querySelector("#game-screen");
+const endGameScreenEl = document.querySelector("#end-game-screen");
+const combatLogEl = document.querySelector("#combat-log");
+const combatLogOff = combatLogEl.style.display = "none";
+const siavaWinnerEl = document.querySelector("#co-op-winner");
+const palyerWinnerEl = document.querySelector("#player-winner");
+const siavaHealthEl = document.querySelector("#siava-hp");
+const playerHealthEl = document.querySelector("#player-hp");
+const attackButtonEl = document.querySelector("#attack-button");
+const defendButtonEl = document.querySelector("#defend-button");
+const healButtonEl = document.querySelector("#heal-button");
+const healErrorEl = document.querySelector("#heal-error");
+const attackErrorEl = document.querySelector("#attack-error");
+let round = 1;
 
-// helpButton.addEventListener("click", openComplaintForm);
-// closeButton.addEventListener("click", closeComplaintForm);
-// submitButton.addEventListener("click", submitForm);
+let isPlayerDefending;
+let isSiavaDefending;
 
-// function openComplaintForm(event) {
-//     console.log(event);
-//     complaintForm.classList.add("active");
-// }
+attackButtonEl.addEventListener("click", attackMove);
+defendButtonEl.addEventListener("click", defendMove);
+healButtonEl.addEventListener("click", healMove);
 
-// function emailIsValid() {
-//     if (emailInput.validity.typeMismatch) {
-//         return false;
-//     } else {
-//         return true
-//     }
-// }
+function showPlayerWinner() {
+    gameScreenEl.style.display = "none";
+    endGameScreenEl.style.display = "block";
+    palyerWinnerEl.style.display = "block";
+}
 
-// function isInputValid() {
-//     if (!nameInput.value || !surnameInput.value || !emailInput.value || !emailIsValid() || !complaint.value) {
-//         return false
-//     }
-//     return true
-// }
+function showSiavaWinner() {
+    gameScreenEl.style.display = "none";
+    endGameScreenEl.style.display = "block";
+    siavaWinnerEl.style.display = "block";
+}
 
-// function clearInput() {
-//     nameInput.value = "";
-//     surnameInput.value = "";
-//     emailInput.value = "";
-//     complaint.value = "";
-// }
+function removeError() {
+    healErrorEl.style.display = "none";
+    attackErrorEl.style.display = "none";
+}
 
-// // function clearData() {
-// //     receivedName.innerText = "";
-// //     receivedSurname.innerText = "";
-// //     receivedEmail.innerText = "";
-// //     receivedComplaint.innerText = "";
-// //     complaintDate.innerText = "";
-// // }
+function countNumber(num1) {
+    const randomNumber = Math.ceil(Math.random() * num1);
+    return randomNumber;
+}
 
-// function addParagraphContainer() {
-//     const paragraphContainer = document.createElement("div");
-//     paragraphContainer.classList.add("paragraph-container");
-//     paragraphContainer.append(addParagraph("First Name: ", "first-name" , nameInput.value));
-//     paragraphContainer.append(addParagraph("Last Name: ", "last-name" , surnameInput.value));
-//     paragraphContainer.append(addParagraph("Email address : ", "email" , emailInput.value));
-//     paragraphContainer.append(addParagraph("Complaint : ", "complaint" , complaint.value));
-//     paragraphContainer.append(addParagraph("Complaint-time : ", "date" , new Date().toLocaleString()));
+function chanceOfNoDamage() {
+    const miss = countNumber(100);
+    return miss;
+}
 
-//     return paragraphContainer;
-// }
+function criticalHitChance() {
+    const criticalHit = countNumber(10);
+    return criticalHit;
+}
 
-// function addParagraph(title, valueId, spanContent) {
-//     const paragraph = document.createElement("p");
-//     const paragraphValue = document.createElement("span");
-//     paragraph.textContent = title;
-//     paragraph.append(paragraphValue);
-//     paragraphValue.id = valueId;
-//     paragraph.classList.add("paragraph");
-//     paragraphValue.textContent = spanContent;
+function isNotTrippleDamage(turn) {
+    const countIfTripple = turn % 3;
+    return countIfTripple;
+}
 
-//     return paragraph;
-// }
+function checkIfEndGame() {
+    if (Number(siavaHealthEl.textContent) <= 0) {
+        showPlayerWinner();
+        return;
+    }
 
-// function addError(a) {
-//     errorMessage.innerText = "Please corect mistakes made in your complaint form.";
-//     addErrorBorder(a);
-// }
+    if (Number(playerHealthEl.textContent) <= 0) {
+        showSiavaWinner();
+        return;
+    }
 
-// function addErrorBorder(a) {
-//     a.style.border = "1px solid red";
-// }
-
-// function addNormalBorder(a) {
-//     a.style.border = "1px solid black";
-// }
-
-// function removeError() {
-//     errorMessage.innerText = "";
-//     addNormalBorder(nameInput);
-//     addNormalBorder(surnameInput);
-//     addNormalBorder(emailInput);
-//     addNormalBorder(complaint);
-// }
-
-// function closeComplaintForm() {
-//     complaintForm.classList.remove("active");
-//     removeError();
-//     // clearData();
-// }
-
-// function submitForm() {
-//     const isNameValid = nameInput.value;
-//     const isSurnameValid = surnameInput.value;
-//     const isEmailValid = emailIsValid();
-//     const isComplaintValid = complaint.value;
-
-//     if (isInputValid()) {
-//         removeError();
-//         resultContainer.append(addParagraphContainer());
-//         clearInput();
-//         setTimeout(closeComplaintForm, 200);
-//     } else {
-//         removeError()
-//         if (!isNameValid) {
-//             addError(nameInput);
-//         }
-
-//         if (!isSurnameValid) {
-//             addError(surnameInput);
-//         }
-
-//         if (!isEmailValid || !emailInput.value) {
-//             addError(emailInput);
-//         }
-
-//         if (!isComplaintValid) {
-//             addError(complaint);
-//         }
-//     }
-// }
-const btn = document.querySelector("#btn");
-btn.addEventListener("click", function() {
-    console.log(remainingBudgetParagraph);
-})
-const selectField = document.querySelector("#change-window");
-const budgetFieldEl = document.querySelector("#budget-field");
-const expensesFieldEl = document.querySelector("#expenses");
-const budgetInputEl = document.querySelector("#budget-input");
-const submitBudgetButton = document.querySelector("#submit-budget");
-const remainingBudgetParagraph = document.querySelector("#remaining-budget-paragraph");
-const budgetSum = addBudgetParagraph;
-const dateEl = document.querySelector("#date");
-const spentInputEl = document.querySelector("#spent-amount-input");
-const expensesTypeEl = document.querySelector("#expenses-type");
-const notesEl = document.querySelector("#notes");
-const submitExpenseButton = document.querySelector("#submit-expense");
-const expensesList = document.querySelector("#expenses-list");
-
-selectField.addEventListener("change", changeField);
-submitBudgetButton.addEventListener("click", addBudget);
-submitExpenseButton.addEventListener("click", submitExpense);
-
-function changeField(event) {
-    if (event.target.value === "current-budget") {
-        budgetFieldEl.style.display = "flex";
-        expensesFieldEl.style.display = "none";
-    } else if (event.target.value === "add-expense") {
-        budgetFieldEl.style.display = "none";
-        expensesFieldEl.style.display = "flex";
+    if (round === 30) {
+        showSiavaWinner();
+        return;
     }
 }
 
-function addBudgetParagraph(expense) {
-    const budgetParagraphEl = document.createElement("p");
-    const budgetSumEl = document.createElement("span");
-    budgetParagraphEl.id = "remaining-budget-paragraph";
-    budgetParagraphEl.textContent = "Current balance after expenses: ";
-    if(!expense) {
-        budgetSumEl.textContent = budgetInputEl.value;
-        budgetParagraphEl.append(budgetSumEl);
+function siavaMove() {
+    if (isPlayerDefending) {
+        const siavaDamage = 0;
+        return siavaDamage;
+    }
+
+    if (2 > criticalHitChance()) {
+        const siavaDamage = countNumber(10) * 2 * 2;
+        playerHealthEl.textContent = Number(playerHealthEl.textContent) - siavaDamage;
+        return siavaDamage;
+    }
+    const siavaDamage = countNumber(10) * 2;
+    playerHealthEl.textContent = Number(playerHealthEl.textContent) - siavaDamage;
+    return siavaDamage;
+}
+
+function siavaMoveIfNotDead(damage) {
+    siavaHealthEl.textContent = Number(siavaHealthEl.textContent) - damage;
+    if (Number(siavaHealthEl.textContent) <= 0) {
+        showPlayerWinner();
     } else {
-        budgetSumEl.textContent = Number(budgetSumEl.textContent) - Number(expense);
+        const siavaDamage = siavaMove();
+        return siavaDamage;
     }
-
-    return budgetParagraphEl;
 }
 
-function addBudget() {
-    budgetFieldEl.append(addBudgetParagraph());
-    disableBudgetInput()
+function combatLog(move, sum, critical, siavaDmg) {
+    if (combatLogOff) {
+        combatLogEl.style.display = "block";
+    }
+    const combatTurnContainer = document.createElement("div")
+    combatTurnContainer.classList.add("turn-log");
+    const roundNum = document.createElement("p");
+    roundNum.textContent = `Round: ${round}`;
+    round = ++round;
+    const playerDamageLog = document.createElement("p");
+    if (move === "attack" && critical) {
+        playerDamageLog.textContent = textContent = `You used ${move} and dealt ${sum} damage. It was a critical hit.`;
+    } else if (move === "attack") {
+        playerDamageLog.textContent = textContent = `You used ${move} and dealt ${sum} damage.`;
+    } else if (move === "defend") {
+        playerDamageLog.textContent = textContent = `You used ${move}.`;
+    } else if (move === "heal") {
+        playerDamageLog.textContent = textContent = `You used ${move}. You recovered ${sum}`;
+    }
+    const siavaDamageLog = document.createElement("p");
+    siavaDamageLog.textContent = `Siava dealt ${siavaDmg} damage`
+    combatTurnContainer.append(roundNum, playerDamageLog, siavaDamageLog);
+    combatLogEl.append(combatTurnContainer);
 }
 
-function calculateBudget(expense) {
-    const remainingBudget = Number(budgetSumEl.textContent) - Number(expense);
-    return remainingBudget;
-}
+function attackMove() {
 
-function disableBudgetInput() {
-    if (budgetInputEl) {
-        budgetInputEl.disabled = true;
-        submitBudgetButton.disabled = true;
+    removeError();
+    if (isSiavaDefending) {
+        attackErrorEl.style.display = "block";
+    } else if (34 > chanceOfNoDamage()) {
+        isPlayerDefending = false;
+        isSiavaDefending = true;
+        const siavaDamage = siavaMove();
+        combatLog("attack", 0, false, siavaDamage);
+    } else if (!isNotTrippleDamage(round)) {
+        isPlayerDefending = false;
+        const playerDamageSum = countNumber(10) * 3;
+        const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
+        combatLog("attack", playerDamageSum, false, siavaDamage);
     } else {
-        budgetInputEl.disabled = false;
-        submitBudgetButton.disabled = false;
+        if (4 > criticalHitChance()) {
+            if (isPlayerDefending) {
+                isPlayerDefending = false;
+                playerDamageSum = countNumber(10) * 2;
+                const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
+                combatLog("attack", playerDamageSum, true, siavaDamage);
+            } else {
+                const playerDamageSum = countNumber(10) * 2;
+                const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
+                combatLog("attack", playerDamageSum, true, siavaDamage);
+            }
+        } else {
+            if (isPlayerDefending) {
+                isPlayerDefending = false;
+                const playerDamageSum = countNumber(10) * 2;
+                const siavaDamage = siavaMoveIfNotDead(playerDamageSum)
+                combatLog("attack", playerDamageSum, false, siavaDamage);
+            } else {
+                const playerDamageSum = countNumber(10);
+                const siavaDamage = siavaMoveIfNotDead(playerDamageSum)
+                combatLog("attack", playerDamageSum, false, siavaDamage);
+            }
+        }
+    }
+    checkIfEndGame();
+}
+
+function defendMove() {
+    removeError();
+    isPlayerDefending = true;
+    isSiavaDefending = false;
+    const siavaDamage = siavaMove();
+    combatLog("defend", undefined, false, siavaDamage);
+    checkIfEndGame();
+}
+
+function healMove() {
+    removeError();
+    isPlayerDefending = false;
+    isSiavaDefending = false;
+    if (Number(playerHealthEl.textContent) >= 100) {
+        healErrorEl.style.display = "block";
+    } else {
+        const playerHealSum = countNumber(30);
+        playerHealthEl.textContent = Number(playerHealthEl.textContent) + playerHealSum;
+        const siavaDamage = siavaMove();
+        combatLog("heal" , playerHealSum, false, siavaDamage);
+        checkIfEndGame();
     }
 }
-
-function formIsValid() {
-    if (dateEl.value && spentInputEl.value && expensesTypeEl.value && notesEl.value) {
-        return true
-    }
-}
-
-function clearInput() {
-    spentInputEl.value = "";
-    notesEl.value = "";
-}
-
-function addParagraph(text, value) {
-    const paragraph = document.createElement("p");
-    const span = document.createElement("span");
-    paragraph.textContent = text;
-    span.textContent = value
-    paragraph.append(span);
-
-    return paragraph;
-}
-
-function createExpenseContainer() {
-    const expenseContainer = document.createElement("div");
-    expenseContainer.classList = "expense-container"
-    expenseContainer.append(addParagraph("Date: ", dateEl.value));
-    expenseContainer.append(addParagraph("Spent amount: ", spentInputEl.value));
-    expenseContainer.append(addParagraph("Expenses type: ", expensesTypeEl.options[expensesTypeEl.selectedIndex].value));
-    expenseContainer.append(addParagraph("Notes: ", notesEl.value));
-    expensesList.append(expenseContainer);
-
-    return expenseContainer;
-}
-
-function submitExpense() {
-    if (formIsValid()) {
-        createExpenseContainer();
-        budgetFieldEl.removeChild(addBudgetParagraph());
-        budgetFieldEl.append(addBudgetParagraph(spentInputEl.value));
-        clearInput();
-    }
-}
-

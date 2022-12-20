@@ -5,59 +5,96 @@
 html,
 body {
     margin: 0;
+    font-family: sans-serif;
 }
 
 body {
     height: 100vh;
-    background-color: bisque;
+    background-color: rgb(47, 92, 189);
 }
 
-.main-container {
+.wrapper {
+    padding: 0 200px;
+}
+
+
+
+.game-name {
+    margin-top: 50px;
+    font-size: 50px;
+    color: rgb(148, 143, 144);
+    text-align: center;
+}
+
+section {
     padding: 20px;
+}
+
+.hp-section,
+.img-section,
+.action-section {
     display: flex;
+    justify-content: space-between;
 }
 
-.left-side,
-.right-side {
+.img-section img {
+    max-width: 300px;
+}
+
+.buttons-container {
+    margin-left: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons-container div {
     padding: 10px;
-    flex: 1;
-}
-
-.left-side {
+    height: 200px;
+    max-width: 200px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
 }
 
-.change-window {
-    margin-bottom: 10px;
+.button {
+    padding: 10px 20px;
+    background-color: rgb(74, 33, 112);
+    color: beige;
+    border: none;
+    border-radius: 10px;
 }
 
-.budget,
-.expenses {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: rgb(224, 216, 216);
-    display: flex;
-    flex-direction: column;
+.heal-error,
+.attack-error {
+    display: none;
+    color: red;
 }
 
-.expenses {
+.end-game-article {
+    display: none;
+    text-align: center;
+}
+
+.co-op-winner {
     display: none;
 }
 
-.budget > *,
-.expenses > * {
-    margin-bottom: 5px;
+.player-winner {
+    display: none;
 }
 
-.expenses > * {
+.player-winner img {
+    width: 300px;
+}
+
+.combat-log {
+    padding-top: 100px;
+    display: none;
+}
+
+.turn-log {
+    padding: 20px;
     display: flex;
     flex-direction: column;
-}
-
-.expenses-list > .expense-container {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: rgb(224, 216, 216);
 }

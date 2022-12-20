@@ -1,60 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Slava Fight 4</title>
     <link rel="stylesheet" href="style.css">
     <script src="scripts.js" defer></script>
 </head>
-
-<body class="wrapper">
-    <div class="main-container">
-        <div class="left-side">
-            <select name="change-window" id="change-window" class="change-window">
-                <option value="current-budget" id="budget-option">Current budget</option>
-                <option value="add-expense" id="expense-option">Add expense</option>
-            </select>
-            <div class="budget" id="budget-field">
-                <label for="budget">Budget:</label>
-                <input type="number" id="budget-input">
-                <button id="submit-budget">Submit</button>
+<body>
+    <header class="wrapper">
+        <h1 class="game-name">Slava Fight 4</h1>
+    </header>
+    <main class="wrapper">
+        <article class="game-article" id="game-screen">
+            <section class="hp-section">
+                <div class="hp-container">
+                    <h2>Siava</h2>
+                    <p>Syla volia: <span id="siava-hp">200</span></p>
+                </div>
+                <div class="hp-container">
+                    <h2>Kulok</h2>
+                    <p>Syla volia: <span id="player-hp">100</span></p>
+                </div>
+            </section>
+            <section class="img-section">
+                <div>
+                    <img src="https://pbs.twimg.com/profile_images/747097121720012800/2AROPvMF_400x400.jpg" alt="co-op">
+                </div>
+                <div>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRivPsBq8gAiVQb89Zb-ZBXwLi8ITiUjN4sqj2l2iGEPXdtmbuUUaDiambukLOHvr8WROY&usqp=CAU" alt="player">
+                </div>
+            </section>
+            <section class="action-section">
+                <div>
+                    <p>Siava will attack every turn! What are you going to do?</p>
+                    <p>Siava deals 1-20 damage every turn.</p>
+                    <p>Siava has 33% chance of taking no damage from you</p>
+                </div>
+                <div class="buttons-container">
+                    <div>
+                        <button class="button" id="attack-button">Attack</button>
+                        <span class="attack-error" id="attack-error">Can't attack</span>
+                        <p>You deal 1 - 10 damage.</p>
+                    </div>
+                    <div>
+                        <button class="button" id="defend-button">Defend</button>
+                        <p>You take no damage. Your next attack deals double damage</p>
+                    </div>
+                    <div>
+                        <button class="button" id="heal-button">Heal</button>
+                        <span class="heal-error" id="heal-error">Can't heal</span>
+                        <p>You regain 1 - 30 health</p>
+                    </div>
+                </div>
+            </section>
+        </article>
+        <article class="end-game-article" id="end-game-screen">
+            <div class="co-op-winner" id="co-op-winner">
+                <img src="https://pbs.twimg.com/profile_images/747097121720012800/2AROPvMF_400x400.jpg" alt="co-op">
+                <h2>Siava wins!</h2>
             </div>
-            <div class="expenses" id="expenses">
-                <div>
-                    <label for="date">Date:</label>
-                    <input type="date" name="date" id="date">
-                </div>
-                <div>
-                    <label for="spent-amount">Spent amount:</label>
-                    <input type="number" name="spent-amount" id="spent-amount-input">
-                </div>
-                <div>
-                    <label for="expenses-type">Expenses type:</label>
-                    <select name="expenses-type" id="expenses-type">
-                        <option value="groceries" id="groceries">Groceries</option>
-                        <option value="clothing" id="clothing">Clothing</option>
-                        <option value="savings" id="savings">Savings</option>
-                        <option value="car" id="car">Car</option>
-                        <option value="books" id="books">Books</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="notes">Notes:</label>
-                    <textarea name="notes" id="notes" class="notes"></textarea>
-                </div>
-                <button id="submit-expense">Submit</button>
+            <div class="player-winner" id="player-winner">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRivPsBq8gAiVQb89Zb-ZBXwLi8ITiUjN4sqj2l2iGEPXdtmbuUUaDiambukLOHvr8WROY&usqp=CAU" alt="player">
+                <h2>You won!</h2>
             </div>
-        </div>
-        <div class="right-side">
-            <div class="expenses-list" id="expenses-list">
-            </div>
-        </div>
-    </div>
-    <button id="btn"></button>
-    
+        </article>
+        <article class="combat-log" id="combat-log">
+            <h2>Combat log</h2>
+        </article>
+    </main>
 </body>
-
 </html>
