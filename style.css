@@ -71,6 +71,10 @@ section {
     color: red;
 }
 
+.info {
+    text-align: end;
+}
+
 .end-game-article {
     display: none;
     text-align: center;

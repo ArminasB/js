@@ -35,14 +35,15 @@
             <section class="action-section">
                 <div>
                     <p>Siava will attack every turn! What are you going to do?</p>
-                    <p>Siava deals 1-20 damage every turn.</p>
-                    <p>Siava has 33% chance of taking no damage from you</p>
+                    <p>Siava deals 1-20 damage every turn and has 10% chance of dealing double damage.</p>
+                    <p>Siava has 33% chance of taking no damage from you.If it does, you are unable to attack on the next turn.</p>
+                    <p>Siava will piss on your head in 30 turns which is fatal.</p>
                 </div>
                 <div class="buttons-container">
                     <div>
                         <button class="button" id="attack-button">Attack</button>
                         <span class="attack-error" id="attack-error">Can't attack</span>
-                        <p>You deal 1 - 10 damage.</p>
+                        <p>You deal 1 - 10 damage.Every 3 turns your attack deals triple damage.</p>
                     </div>
                     <div>
                         <button class="button" id="defend-button">Defend</button>
@@ -55,6 +56,7 @@
                     </div>
                 </div>
             </section>
+            <p class="info">Triple and double damage attacks do not accumulate.Triple one always takes priority.</p>
         </article>
         <article class="end-game-article" id="end-game-screen">
             <div class="co-op-winner" id="co-op-winner">
