@@ -1,193 +1,109 @@
-const gameScreenEl = document.querySelector("#game-screen");
-const endGameScreenEl = document.querySelector("#end-game-screen");
-const combatLogEl = document.querySelector("#combat-log");
-const combatLogOff = combatLogEl.style.display = "none";
-const siavaWinnerEl = document.querySelector("#co-op-winner");
-const palyerWinnerEl = document.querySelector("#player-winner");
-const siavaHealthEl = document.querySelector("#siava-hp");
-const playerHealthEl = document.querySelector("#player-hp");
-const attackButtonEl = document.querySelector("#attack-button");
-const defendButtonEl = document.querySelector("#defend-button");
-const healButtonEl = document.querySelector("#heal-button");
-const healErrorEl = document.querySelector("#heal-error");
-const attackErrorEl = document.querySelector("#attack-error");
-let round = 1;
 
-let isPlayerDefending;
-let isSiavaDefending;
+const selectField = document.querySelector("#change-window");
+const budgetFieldEl = document.querySelector("#budget-field");
+const expensesFieldEl = document.querySelector("#expenses");
+const budgetInputEl = document.querySelector("#budget-input");
+const submitBudgetButton = document.querySelector("#submit-budget");
+const budgetSum = addBudgetParagraph;
+const dateEl = document.querySelector("#date");
+const spentInputEl = document.querySelector("#spent-amount-input");
+const expensesTypeEl = document.querySelector("#expenses-type");
+const notesEl = document.querySelector("#notes");
+const submitExpenseButton = document.querySelector("#submit-expense");
+const noBudgetErrorEl = document.querySelector("#no-budget-error");
+const expensesList = document.querySelector("#expenses-list");
+const budgetSumEl = document.createElement("span");
+const isBudgetNotEntered = budgetSumEl.textContent === "";
 
-attackButtonEl.addEventListener("click", attackMove);
-defendButtonEl.addEventListener("click", defendMove);
-healButtonEl.addEventListener("click", healMove);
+selectField.addEventListener("change", changeField);
+submitBudgetButton.addEventListener("click", addBudget);
+submitExpenseButton.addEventListener("click", submitExpense);
 
-function showPlayerWinner() {
-    gameScreenEl.style.display = "none";
-    endGameScreenEl.style.display = "block";
-    palyerWinnerEl.style.display = "block";
-}
-
-function showSiavaWinner() {
-    gameScreenEl.style.display = "none";
-    endGameScreenEl.style.display = "block";
-    siavaWinnerEl.style.display = "block";
-}
-
-function removeError() {
-    healErrorEl.style.display = "none";
-    attackErrorEl.style.display = "none";
-}
-
-function countNumber(num1) {
-    const randomNumber = Math.ceil(Math.random() * num1);
-    return randomNumber;
-}
-
-function chanceOfNoDamage() {
-    const miss = countNumber(100);
-    return miss;
-}
-
-function criticalHitChance() {
-    const criticalHit = countNumber(10);
-    return criticalHit;
-}
-
-function isNotTrippleDamage(turn) {
-    const countIfTripple = turn % 3;
-    return countIfTripple;
-}
-
-function checkIfEndGame() {
-    if (Number(siavaHealthEl.textContent) <= 0) {
-        showPlayerWinner();
-        return;
-    }
-
-    if (Number(playerHealthEl.textContent) <= 0) {
-        showSiavaWinner();
-        return;
-    }
-
-    if (round === 30) {
-        showSiavaWinner();
-        return;
+function changeField(event) {
+    if (event.target.value === "current-budget") {
+        budgetFieldEl.style.display = "flex";
+        expensesFieldEl.style.display = "none";
+    } else if (event.target.value === "add-expense") {
+        budgetFieldEl.style.display = "none";
+        expensesFieldEl.style.display = "flex";
     }
 }
 
-function siavaMove() {
-    if (isPlayerDefending) {
-        const siavaDamage = 0;
-        return siavaDamage;
-    }
+function addBudgetParagraph() {
+    clearError();
+    const budgetParagraphEl = document.createElement("p");
+    budgetParagraphEl.textContent = "Current balance after expenses: ";
+    budgetSumEl.textContent = budgetInputEl.value;
+    budgetParagraphEl.append(budgetSumEl);
+    return budgetParagraphEl;
 
-    if (2 > criticalHitChance()) {
-        const siavaDamage = countNumber(10) * 2 * 2;
-        playerHealthEl.textContent = Number(playerHealthEl.textContent) - siavaDamage;
-        return siavaDamage;
-    }
-    const siavaDamage = countNumber(10) * 2;
-    playerHealthEl.textContent = Number(playerHealthEl.textContent) - siavaDamage;
-    return siavaDamage;
 }
 
-function siavaMoveIfNotDead(damage) {
-    siavaHealthEl.textContent = Number(siavaHealthEl.textContent) - damage;
-    if (Number(siavaHealthEl.textContent) <= 0) {
-        showPlayerWinner();
+function addBudget() {
+    budgetFieldEl.append(addBudgetParagraph());
+    disableBudgetInput()
+}
+
+function disableBudgetInput() {
+    if (budgetInputEl) {
+        budgetInputEl.disabled = true;
+        submitBudgetButton.disabled = true;
     } else {
-        const siavaDamage = siavaMove();
-        return siavaDamage;
+        budgetInputEl.disabled = false;
+        submitBudgetButton.disabled = false;
     }
 }
 
-function combatLog(move, sum, critical, siavaDmg) {
-    if (combatLogOff) {
-        combatLogEl.style.display = "block";
+function formIsValid() {
+    if (dateEl.value && spentInputEl.value && expensesTypeEl.value && notesEl.value) {
+        return true
     }
-    const combatTurnContainer = document.createElement("div")
-    combatTurnContainer.classList.add("turn-log");
-    const roundNum = document.createElement("p");
-    roundNum.textContent = `Round: ${round}`;
-    round = ++round;
-    const playerDamageLog = document.createElement("p");
-    if (move === "attack" && critical) {
-        playerDamageLog.textContent = textContent = `You used ${move} and dealt ${sum} damage. It was a critical hit.`;
-    } else if (move === "attack") {
-        playerDamageLog.textContent = textContent = `You used ${move} and dealt ${sum} damage.`;
-    } else if (move === "defend") {
-        playerDamageLog.textContent = textContent = `You used ${move}.`;
-    } else if (move === "heal") {
-        playerDamageLog.textContent = textContent = `You used ${move}. You recovered ${sum}`;
-    }
-    const siavaDamageLog = document.createElement("p");
-    siavaDamageLog.textContent = `Siava dealt ${siavaDmg} damage`
-    combatTurnContainer.append(roundNum, playerDamageLog, siavaDamageLog);
-    combatLogEl.append(combatTurnContainer);
 }
 
-function attackMove() {
+function clearInput() {
+    dateEl.value = "";
+    spentInputEl.value = "";
+    notesEl.value = "";
+}
 
-    removeError();
-    if (isSiavaDefending) {
-        attackErrorEl.style.display = "block";
-    } else if (34 > chanceOfNoDamage()) {
-        isPlayerDefending = false;
-        isSiavaDefending = true;
-        const siavaDamage = siavaMove();
-        combatLog("attack", 0, false, siavaDamage);
-    } else if (!isNotTrippleDamage(round)) {
-        isPlayerDefending = false;
-        const playerDamageSum = countNumber(10) * 3;
-        const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
-        combatLog("attack", playerDamageSum, false, siavaDamage);
-    } else {
-        if (4 > criticalHitChance()) {
-            if (isPlayerDefending) {
-                isPlayerDefending = false;
-                playerDamageSum = countNumber(10) * 2;
-                const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
-                combatLog("attack", playerDamageSum, true, siavaDamage);
-            } else {
-                const playerDamageSum = countNumber(10) * 2;
-                const siavaDamage = siavaMoveIfNotDead(playerDamageSum);
-                combatLog("attack", playerDamageSum, true, siavaDamage);
-            }
-        } else {
-            if (isPlayerDefending) {
-                isPlayerDefending = false;
-                const playerDamageSum = countNumber(10) * 2;
-                const siavaDamage = siavaMoveIfNotDead(playerDamageSum)
-                combatLog("attack", playerDamageSum, false, siavaDamage);
-            } else {
-                const playerDamageSum = countNumber(10);
-                const siavaDamage = siavaMoveIfNotDead(playerDamageSum)
-                combatLog("attack", playerDamageSum, false, siavaDamage);
-            }
-        }
+function clearError() {
+    noBudgetErrorEl.style.display = "none";
+}
+
+function addExpenceParagraph(text, value) {
+    const paragraph = document.createElement("p");
+    const span = document.createElement("span");
+    paragraph.textContent = text;
+    span.textContent = value
+    paragraph.append(span);
+    return paragraph;
+}
+
+function createExpenseContainer() {
+    const expenseContainer = document.createElement("div");
+    expenseContainer.classList = "expense-container";
+    expenseContainer.append(addExpenceParagraph("Date: ", dateEl.value));
+    expenseContainer.append(addExpenceParagraph("Spent amount: ", spentInputEl.value));
+    expenseContainer.append(addExpenceParagraph("Expenses type: ", expensesTypeEl.options[expensesTypeEl.selectedIndex].value));
+    expenseContainer.append(addExpenceParagraph("Notes: ", notesEl.value));
+    expensesList.append(expenseContainer);
+    return expenseContainer;
+
+}
+
+function calculateRemainingBudget(expense) {
+    const remainingBudget = Number(budgetSumEl.textContent) - Number(expense);
+    return remainingBudget;
+}
+
+function submitExpense() {
+    if (isBudgetNotEntered) {
+        return noBudgetErrorEl.style.display = "block";
     }
-    checkIfEndGame();
-}
 
-function defendMove() {
-    removeError();
-    isPlayerDefending = true;
-    isSiavaDefending = false;
-    const siavaDamage = siavaMove();
-    combatLog("defend", undefined, false, siavaDamage);
-    checkIfEndGame();
-}
-
-function healMove() {
-    removeError();
-    isPlayerDefending = false;
-    isSiavaDefending = false;
-    if (Number(playerHealthEl.textContent) >= 100) {
-        healErrorEl.style.display = "block";
-    } else {
-        const playerHealSum = countNumber(30);
-        playerHealthEl.textContent = Number(playerHealthEl.textContent) + playerHealSum;
-        const siavaDamage = siavaMove();
-        combatLog("heal" , playerHealSum, false, siavaDamage);
-        checkIfEndGame();
+    if (formIsValid()) {
+        budgetSumEl.textContent = calculateRemainingBudget(spentInputEl.value);
+        createExpenseContainer();
+        clearInput();
     }
 }
