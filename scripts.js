@@ -1,107 +1,36 @@
+const newKeyEl = document.querySelector("#new-key");
+const existingKeysEl = document.querySelector("#existing-keys");
+const defaultOptionEl = document.querySelector("#default-option");
+const keyValue = document.querySelector("#key-value");
+const buttonEl = document.querySelector("#btn");
+const resultContainer = document.querySelector("#result");
+const output = document.createElement("p");
+output.textContent = "{}";
+resultContainer.append(output);
+const object = {};
+buttonEl.addEventListener("click", updateObject);
 
-const selectField = document.querySelector("#change-window");
-const budgetFieldEl = document.querySelector("#budget-field");
-const expensesFieldEl = document.querySelector("#expenses");
-const budgetInputEl = document.querySelector("#budget-input");
-const submitBudgetButton = document.querySelector("#submit-budget");
-const budgetSum = addBudgetParagraph;
-const dateEl = document.querySelector("#date");
-const spentInputEl = document.querySelector("#spent-amount-input");
-const expensesTypeEl = document.querySelector("#expenses-type");
-const notesEl = document.querySelector("#notes");
-const submitExpenseButton = document.querySelector("#submit-expense");
-const noBudgetErrorEl = document.querySelector("#no-budget-error");
-const expensesList = document.querySelector("#expenses-list");
-const budgetSumEl = document.createElement("span");
-
-selectField.addEventListener("change", changeField);
-submitBudgetButton.addEventListener("click", addBudget);
-submitExpenseButton.addEventListener("click", submitExpense);
-
-function disableBudgetInput() {
-    if (budgetInputEl) {
-        budgetInputEl.disabled = true;
-        submitBudgetButton.disabled = true;
+function updateObject() {
+    if(!existingKeysEl.value) {
+        existingKeysEl.removeAttribute("disabled");
+        defaultOptionEl.removeAttribute("hidden");
+        object[newKeyEl.value] = keyValue.value;
+        createExistingKey(newKeyEl.value);
+        return updateOutput(JSON.stringify(object));
     } else {
-        budgetInputEl.disabled = false;
-        submitBudgetButton.disabled = false;
+        object[existingKeysEl.value] = keyValue.value;
+        return updateOutput(JSON.stringify(object));
     }
 }
 
-function formIsValid() {
-    if (dateEl.value && spentInputEl.value && expensesTypeEl.value && notesEl.value) {
-        return true
-    }
+function createExistingKey(key) {
+    const newKey = document.createElement("option");
+    newKey.textContent = key;
+    newKey.value = key;
+    return existingKeysEl.append(newKey);
 }
 
-function clearInput() {
-    dateEl.value = "";
-    spentInputEl.value = "";
-    notesEl.value = "";
+function updateOutput(obj) {
+    return output.textContent = obj;
 }
 
-function clearError() {
-    noBudgetErrorEl.style.display = "none";
-}
-
-function changeField(event) {
-    if (event.target.value === "current-budget") {
-        budgetFieldEl.style.display = "flex";
-        expensesFieldEl.style.display = "none";
-    } else if (event.target.value === "add-expense") {
-        budgetFieldEl.style.display = "none";
-        expensesFieldEl.style.display = "flex";
-    }
-}
-
-function addBudgetParagraph() {
-    clearError();
-    const budgetParagraphEl = document.createElement("p");
-    budgetParagraphEl.textContent = "Current balance after expenses: ";
-    budgetSumEl.textContent = budgetInputEl.value;
-    budgetParagraphEl.append(budgetSumEl);
-    return budgetParagraphEl;
-}
-
-function addBudget() {
-    budgetFieldEl.append(addBudgetParagraph());
-    disableBudgetInput()
-}
-
-function addExpenceParagraph(text, value) {
-    const paragraph = document.createElement("p");
-    const span = document.createElement("span");
-    paragraph.textContent = text;
-    span.textContent = value
-    paragraph.append(span);
-    return paragraph;
-}
-
-function createExpenseContainer() {
-    const expenseContainer = document.createElement("div");
-    expenseContainer.classList = "expense-container";
-    expenseContainer.append(addExpenceParagraph("Date: ", dateEl.value));
-    expenseContainer.append(addExpenceParagraph("Spent amount: ", spentInputEl.value));
-    expenseContainer.append(addExpenceParagraph("Expenses type: ", expensesTypeEl.options[expensesTypeEl.selectedIndex].value));
-    expenseContainer.append(addExpenceParagraph("Notes: ", notesEl.value));
-    expensesList.append(expenseContainer);
-    return expenseContainer;
-}
-
-function calculateRemainingBudget(expense) {
-    const remainingBudget = Number(budgetSumEl.textContent) - Number(expense);
-    return remainingBudget;
-}
-
-function submitExpense() {
-    const isBudgetEntered = budgetSumEl.textContent
-    if (isBudgetEntered) {
-        return noBudgetErrorEl.style.display = "block";
-    }
-
-    if (formIsValid()) {
-        budgetSumEl.textContent = calculateRemainingBudget(spentInputEl.value);
-        createExpenseContainer();
-        clearInput();
-    }
-}
