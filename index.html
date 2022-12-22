@@ -11,19 +11,39 @@
 </head>
 
 <body class="wrapper">
-    <div class="input-container">
-        <label for="new-key">New key</label>
-        <input type="text" id="new-key">
-        <label for="existing-keys">Existing keys</label>
-        <select name="" id="existing-keys" disabled>
-            <option hidden selected value id="default-option"> Select a Key </option>
-        </select>
-        <label for="key-value">Key value</label>
-        <input type="text" id="key-value">
-        <button id="btn">Submit</button>
-    </div>
-    <div class="result" id="result">
-
+    <div class="form-container">
+        <form action="POST">
+            <div class="first-input-container input-container" id="first-input-container">
+                <label for="name">First Name</label>
+                <input type="text" id="name" name="name">
+                <label for="surname">Last Name</label>
+                <input type="text" id="surname" name="surname">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email">
+            </div>
+            <div class="second-input-container input-container hidden" id="second-input-container">
+                <label for="address">Primary address</label>
+                <input type="text" id="address" name="address">
+                <label for="secondary-address">Secondary address</label>
+                <input type="text" id="secondary-address" name="secondary-address">
+                <label for="shirt-size">Shirt size</label>
+                <input type="text" id="shirt-size" name="shirt-size">
+            </div>
+            <div class="third-input-container input-container hidden" id="third-input-container">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password">
+                <label for="repeat-password">Repeat password</label>
+                <input type="password" id="repeat-password" name="repeat-password">
+                <span class="password-match-error" id="password-match-error">Passwords don't match</span>
+            </div>
+        </form>
+        <div class="result" id="result">
+            
+        </div>
+        <div class="button-container">
+            <button class="back-button" id="back-button">Back</button>
+            <button class="continue-button" id="continue-button">Continue</button>
+        </div>
     </div>
 </body>
 

@@ -13,26 +13,63 @@ body {
 }
 
 .wrapper {
-
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.wrapper div {
-    margin: 200px;
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    width: 400px;
+    padding: 20px 40px;
+    background-color: azure;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .input-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.input-container input,
-select {
-    margin-bottom: 20px;
+.password-match-error {
+    display: none;
+    color: red;
 }
 
 .result {
-    height: 300px;
-    width: 300px;
-    background-color: white;
+    display: none;
+    background-color: gray;
+    min-height: 200px;
+    padding: 10px;
+}
+
+.result p {
+    word-break: break-all;
+}
+
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.button-container button {
+    margin-right: 10px;
+}
+
+.back-button {
+    display: none;
+}
+
+.hidden {
+    display: none;
 }
