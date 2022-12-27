@@ -20,7 +20,7 @@ const object = {
 };
 
 continueButtonEl.addEventListener("click", continueForm);
-// backButtonEl.addEventListener("click", backForm);
+backButtonEl.addEventListener("click", backForm);
 
 function removeError() {
     nameInputEl.style.border = "1px solid black";
@@ -35,13 +35,13 @@ function removeError() {
 
 function isInputFieldValid(input, email, password, passwordTwo) {
     if (password && passwordTwo) {
-        if (password === passwordTwo) {
-            return true;
-        } else {
+        if (password.value !== passwordTwo.value || !password.value || !passwordTwo.value) {
             password.style.border = "1px solid red";
             passwordTwo.style.border = "1px solid red";
             passwordErrorEl.style.display = "inline";
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -81,8 +81,11 @@ function isSecondInputFieldValid() {
     }
 }
 
-function isInputFieldOpen(field, className) {
-    return field.classList.contains(className);
+function isThirdInputFieldValid() {
+    const isPasswordValid = isInputFieldValid(false, false, passwordInputEl, repeatPasswordInputEl);
+    if (isPasswordValid) {
+        return true;
+    }
 }
 
 function closeField(field) {
@@ -97,30 +100,27 @@ function updateObject(turn) {
     object.step = turn;
 }
 
-function updateInnerObject(inputName, inputValue) {
-    return object.user[inputName] = inputValue.value;
+function updateInnerObject(name, inputValue) {
+    return object.user[name] = inputValue.value;
 }
 
 function continueForm() {
     removeError();
-    if (isInputFieldOpen(firstInputContainerEl, "first-input-container")) {
+    if (object.step === 0) {
         if (isFirstInputFieldValid()) {
             closeField(firstInputContainerEl);
             openField(secondInputContainerEl);
             backButtonEl.style.display = "inline";
-            updateObject(1);
             updateInnerObject("firstName", nameInputEl);
             updateInnerObject("lastName", surnameInputEl);
             updateInnerObject("email", emailInputEl);
+            return updateObject(1);
         }
     }
-
-    if (isInputFieldOpen(secondInputContainerEl, "second-input-container")) {
+    if (object.step === 1) {
         if (isSecondInputFieldValid()) {
-            console.log("test");
             closeField(secondInputContainerEl);
-            openField(resultContainerEl);
-            updateObject(2);
+            openField(thirdInputContainerEl);
             if (!secondaryAddressInputEl) {
                 updateInnerObject("address", addressInputEl);
                 updateInnerObject("shirtSize", shirtSizeInputEl);
@@ -129,8 +129,38 @@ function continueForm() {
                 updateInnerObject("secondaryAddress", secondaryAddressInputEl);
                 updateInnerObject("shirtSize", shirtSizeInputEl);
             }
+            return updateObject(2);
+        }
+    }
+    if (object.step === 2) {
+        if (isThirdInputFieldValid()) {
+            closeField(thirdInputContainerEl);
+            openField(resultContainerEl);
+            continueButtonEl.style.display = "none";
+            updateInnerObject("password", passwordInputEl);
+            updateObject(3);
             resultEl.textContent = JSON.stringify(object);
             return resultContainerEl.append(resultEl);
         }
+    }
+}
+
+function backForm() {
+    if (object.step === 3) {
+        closeField(resultContainerEl);
+        openField(thirdInputContainerEl);
+        continueButtonEl.style.display = "inline";
+        return updateObject(2);
+    }
+    if (object.step === 2) {
+        closeField(thirdInputContainerEl);
+        openField(secondInputContainerEl);
+        return updateObject(1);
+    }
+    if (object.step === 1) {
+        closeField(secondInputContainerEl);
+        openField(firstInputContainerEl);
+        backButtonEl.style.display = "none";
+        return updateObject(0);
     }
 }
