@@ -96,71 +96,70 @@ function openField(field) {
     field.style.display = "flex";
 }
 
-function updateObject(turn) {
-    object.step = turn;
-}
-
 function updateInnerObject(name, inputValue) {
     return object.user[name] = inputValue.value;
 }
 
-function continueForm() {
+function continueForm(event) {
+    event.preventDefault();
     removeError();
-    if (object.step === 0) {
-        if (isFirstInputFieldValid()) {
-            closeField(firstInputContainerEl);
-            openField(secondInputContainerEl);
-            backButtonEl.style.display = "inline";
-            updateInnerObject("firstName", nameInputEl);
-            updateInnerObject("lastName", surnameInputEl);
-            updateInnerObject("email", emailInputEl);
-            return updateObject(1);
-        }
-    }
-    if (object.step === 1) {
-        if (isSecondInputFieldValid()) {
-            closeField(secondInputContainerEl);
-            openField(thirdInputContainerEl);
-            if (!secondaryAddressInputEl) {
-                updateInnerObject("address", addressInputEl);
-                updateInnerObject("shirtSize", shirtSizeInputEl);
-            } else {
-                updateInnerObject("address", addressInputEl);
-                updateInnerObject("secondaryAddress", secondaryAddressInputEl);
-                updateInnerObject("shirtSize", shirtSizeInputEl);
+    switch (object.step) {
+        case 0:
+            if (isFirstInputFieldValid()) {
+                closeField(firstInputContainerEl);
+                openField(secondInputContainerEl);
+                backButtonEl.style.display = "inline";
+                updateInnerObject("firstName", nameInputEl);
+                updateInnerObject("lastName", surnameInputEl);
+                updateInnerObject("email", emailInputEl);
+                object.step += 1;
+                break;
             }
-            return updateObject(2);
-        }
-    }
-    if (object.step === 2) {
-        if (isThirdInputFieldValid()) {
-            closeField(thirdInputContainerEl);
-            openField(resultContainerEl);
-            continueButtonEl.style.display = "none";
-            updateInnerObject("password", passwordInputEl);
-            updateObject(3);
-            resultEl.textContent = JSON.stringify(object);
-            return resultContainerEl.append(resultEl);
-        }
+        case 1:
+            if (isSecondInputFieldValid()) {
+                closeField(secondInputContainerEl);
+                openField(thirdInputContainerEl);
+                updateInnerObject("address", addressInputEl);
+                updateInnerObject("shirtSize", shirtSizeInputEl)
+                if (secondaryAddressInputEl.value) {
+                    updateInnerObject("secondaryAddress", secondaryAddressInputEl);
+                }
+                object.step += 1;
+                break;
+            }
+        case 2:
+            if (isThirdInputFieldValid()) {
+                closeField(thirdInputContainerEl);
+                openField(resultContainerEl);
+                continueButtonEl.style.display = "none";
+                updateInnerObject("password", passwordInputEl);
+                object.step += 1;
+                resultEl.textContent = JSON.stringify(object);
+                console.log(object);
+                resultContainerEl.append(resultEl);
+                break;
+            }
     }
 }
 
 function backForm() {
-    if (object.step === 3) {
-        closeField(resultContainerEl);
-        openField(thirdInputContainerEl);
-        continueButtonEl.style.display = "inline";
-        return updateObject(2);
-    }
-    if (object.step === 2) {
-        closeField(thirdInputContainerEl);
-        openField(secondInputContainerEl);
-        return updateObject(1);
-    }
-    if (object.step === 1) {
-        closeField(secondInputContainerEl);
-        openField(firstInputContainerEl);
-        backButtonEl.style.display = "none";
-        return updateObject(0);
+    switch (object.step) {
+        case 3:
+            closeField(resultContainerEl);
+            openField(thirdInputContainerEl);
+            continueButtonEl.style.display = "inline";
+            object.step -= 1;
+            break;
+        case 2:
+            closeField(thirdInputContainerEl);
+            openField(secondInputContainerEl);
+            object.step -= 1;
+            break;
+        case 1:
+            closeField(secondInputContainerEl);
+            openField(firstInputContainerEl);
+            backButtonEl.style.display = "none";
+            object.step -= 1;
+            break;
     }
 }
