@@ -1,165 +1,143 @@
-const firstInputContainerEl = document.querySelector("#first-input-container");
-const secondInputContainerEl = document.querySelector("#second-input-container");
-const thirdInputContainerEl = document.querySelector("#third-input-container");
-const resultContainerEl = document.querySelector("#result");
-const nameInputEl = document.querySelector("#name");
-const surnameInputEl = document.querySelector("#surname");
-const emailInputEl = document.querySelector("#email");
-const addressInputEl = document.querySelector("#address");
-const secondaryAddressInputEl = document.querySelector("#secondary-address");
-const shirtSizeInputEl = document.querySelector("#shirt-size");
-const passwordInputEl = document.querySelector("#password");
-const repeatPasswordInputEl = document.querySelector("#repeat-password");
-const passwordErrorEl = document.querySelector("#password-match-error");
-const continueButtonEl = document.querySelector("#continue-button");
-const backButtonEl = document.querySelector("#back-button");
-const resultEl = document.createElement('p');
-const object = {
-    step: 0,
-    user: {},
-};
-
-continueButtonEl.addEventListener("click", continueForm);
-backButtonEl.addEventListener("click", backForm);
-
-function removeError() {
-    nameInputEl.style.border = "1px solid black";
-    surnameInputEl.style.border = "1px solid black";
-    emailInputEl.style.border = "1px solid black";
-    addressInputEl.style.border = "1px solid black";
-    shirtSizeInputEl.style.border = "1px solid black";
-    passwordInputEl.style.border = "1px solid black";
-    continueButtonEl.style.border = "1px solid black";
-    passwordErrorEl.style.display = "none";
-}
-
-function isInputFieldValid(input, email, password, passwordTwo) {
-    if (password && passwordTwo) {
-        if (password.value !== passwordTwo.value || !password.value || !passwordTwo.value) {
-            password.style.border = "1px solid red";
-            passwordTwo.style.border = "1px solid red";
-            passwordErrorEl.style.display = "inline";
-            return false;
-        } else {
-            return true;
-        }
+const elements = {
+    dragonHelthText: document.querySelector("#dragon-health"),
+    knightHealthText: document.querySelector("#knight-health"),
+    attackButton: document.querySelector("#attack-btn"),
+    defendButton: document.querySelector("#defend-btn"),
+    healButton: document.querySelector("#heal-btn"),
+    gameLogContainer: document.querySelector("#game-log"),
+    combatLog: null,
+    dragonImage: document.querySelector("#dragon-image"),
+    knightImage: document.querySelector("#knight-image"),
+    controlsContainer: document.querySelector("#controls"),
+  };
+  
+  const roundType = {
+    attack: "attack",
+    defend: "defend",
+    heal: "heal",
+  };
+  
+  const state = {
+    round: 0,
+    dragonHelth: 200,
+    knightHealth: 100,
+    update() {
+      elements.dragonHelthText.textContent = state.dragonHelth;
+      elements.knightHealthText.textContent = state.knightHealth;
+    },
+    increaseRound() {
+      state.round++;
+    },
+  };
+  
+  function generateNumberTo(max) {
+    return Math.ceil(Math.random() * max);
+  }
+  
+  function playerAttack() {
+    const damage = generateNumberTo(10);
+    state.dragonHelth -= damage;
+    state.update();
+    return damage;
+  }
+  
+  function playerDefend() {
+  
+  }
+  
+  function playerHeal() {
+    const healing = generateNumberTo(30);
+    const sum = state.knightHealth + healing;
+    if (sum > 100) {
+      state.knightHealth = 100;
+    } else {
+      state.knightHealth = sum;
     }
-
-    if (email) {
-        if (email.validity.typeMismatch || !email.value) {
-            email.style.border = "1px solid red";
-            return false;
-        } else {
-            return true;
-        }
+    state.update();
+    return healing;
+  }
+  
+  function dragonAttack() {
+    const damage = generateNumberTo(20);
+    state.knightHealth -= damage;
+    state.update();
+    return damage;
+  }
+  
+  function setupCombatLog() {
+    const heading = document.createElement("h2");
+    heading.textContent = "Combat Log";
+    elements.gameLogContainer.append(heading);
+    elements.combatLog = document.createElement("ul");
+    elements.combatLog.className = "combat-log";
+    elements.gameLogContainer.append(elements.combatLog);
+  }
+  
+  function writeLogToHTML(roundLog) {
+    if(!elements.combatLog) {
+      setupCombatLog();
     }
-
-    if (input) {
-        if (!input.value) {
-            input.style.border = "1px solid red";
-            return false;
-        } else {
-            return true;
-        }
+    const liElement = document.createElement("li");
+    const titleElement = document.createElement("span");
+    const titleBoldElement = document.createElement("b");
+    const playerInfoElement = document.createElement("span");
+    const dragonInfoElement = document.createElement("span");
+  
+    titleElement.append(titleBoldElement);
+    titleBoldElement.textContent = `Round ${state.round}`;
+    playerInfoElement.textContent = roundLog.playerText;
+    dragonInfoElement.textContent = roundLog.dragonText;
+    liElement.append(titleElement, playerInfoElement, dragonInfoElement);
+    elements.combatLog.append(liElement);
+  }
+  
+  function checkIfEndOfGame() {
+    if(state.knightHealth <= 0) {
+      elements.knightImage.remove();
+      elements.controlsContainer.remove();
+      return;
+    } else if(state.dragonHelth <= 0) {
+      elements.dragonImage.remove();
+      elements.controlsContainer.remove();
     }
-}
-
-function isFirstInputFieldValid() {
-    const isNameValid = isInputFieldValid(nameInputEl, false, false, false);
-    const isSurnameValid = isInputFieldValid(surnameInputEl, false, false, false);
-    const isEmailValid = isInputFieldValid(false, emailInputEl, false, false);
-    if (isNameValid && isSurnameValid && isEmailValid) {
-        return true;
+  }
+  
+  function playRound(type) {
+    state.increaseRound();
+    const log = {
+      playerText: null,
+      dragonText: null,
+    };
+  
+    switch (type) {
+      case roundType.attack:
+        const damage = playerAttack();
+        log.playerText = `Player used attack and dealt ${damage} damage.`;
+        break;
+  
+      case roundType.defend:
+  
+        break;
+  
+      case roundType.heal:
+        const healing = playerHeal();
+        log.playerText = `Knight used heal and received ${healing} health.`;
     }
-}
-
-function isSecondInputFieldValid() {
-    const isAddressValid = isInputFieldValid(addressInputEl, false, false, false);
-    const isSizeValid = isInputFieldValid(shirtSizeInputEl, false, false, false);
-    if (isAddressValid && isSizeValid) {
-        return true
-    }
-}
-
-function isThirdInputFieldValid() {
-    const isPasswordValid = isInputFieldValid(false, false, passwordInputEl, repeatPasswordInputEl);
-    if (isPasswordValid) {
-        return true;
-    }
-}
-
-function closeField(field) {
-    field.style.display = "none";
-}
-
-function openField(field) {
-    field.style.display = "flex";
-}
-
-function updateInnerObject(name, inputValue) {
-    return object.user[name] = inputValue.value;
-}
-
-function continueForm(event) {
-    event.preventDefault();
-    removeError();
-    switch (object.step) {
-        case 0:
-            if (isFirstInputFieldValid()) {
-                closeField(firstInputContainerEl);
-                openField(secondInputContainerEl);
-                backButtonEl.style.display = "inline";
-                updateInnerObject("firstName", nameInputEl);
-                updateInnerObject("lastName", surnameInputEl);
-                updateInnerObject("email", emailInputEl);
-                object.step += 1;
-                break;
-            }
-        case 1:
-            if (isSecondInputFieldValid()) {
-                closeField(secondInputContainerEl);
-                openField(thirdInputContainerEl);
-                updateInnerObject("address", addressInputEl);
-                updateInnerObject("shirtSize", shirtSizeInputEl)
-                if (secondaryAddressInputEl.value) {
-                    updateInnerObject("secondaryAddress", secondaryAddressInputEl);
-                }
-                object.step += 1;
-                break;
-            }
-        case 2:
-            if (isThirdInputFieldValid()) {
-                closeField(thirdInputContainerEl);
-                openField(resultContainerEl);
-                continueButtonEl.style.display = "none";
-                updateInnerObject("password", passwordInputEl);
-                object.step += 1;
-                resultEl.textContent = JSON.stringify(object);
-                console.log(object);
-                resultContainerEl.append(resultEl);
-                break;
-            }
-    }
-}
-
-function backForm() {
-    switch (object.step) {
-        case 3:
-            closeField(resultContainerEl);
-            openField(thirdInputContainerEl);
-            continueButtonEl.style.display = "inline";
-            object.step -= 1;
-            break;
-        case 2:
-            closeField(thirdInputContainerEl);
-            openField(secondInputContainerEl);
-            object.step -= 1;
-            break;
-        case 1:
-            closeField(secondInputContainerEl);
-            openField(firstInputContainerEl);
-            backButtonEl.style.display = "none";
-            object.step -= 1;
-            break;
-    }
-}
+  
+    const damage = dragonAttack();
+    log.dragonText = `Dragon attacks and deals ${damage} damage to the knight.`;
+    writeLogToHTML(log);
+    checkIfEndOfGame();
+  }
+  
+  elements.attackButton.addEventListener("click", function () {
+    playRound(roundType.attack);
+  });
+  
+  elements.defendButton.addEventListener("click", function () {
+    playRound(roundType.defend);
+  });
+  
+  elements.healButton.addEventListener("click", function () {
+    playRound(roundType.heal);
+  });
