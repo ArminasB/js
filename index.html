@@ -1,54 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="main.js" defer></script>
-</head>
-<body>
-    <section>
-        <input type="text" name="input-one" id="input-one">
-        <input type="text" name="input-two" id="input-two">
-        <button type="submit" id="submit-btn">Submit</button>
-    </section>
-
-    <section>
-        <form action="index.html" method="POST">
-            <div>
-                <label for="car-brand">Car brand:</label>
-                <input type="text" name="car-brand" id="car-brand" required>
-            </div>
-            <div>
-                <label for="car-color">Car color:</label>
-                <input type="text" name="car-color" id="car-color" required>
-            </div>
-            <div>
-                <label for="engine">Engine</label>
-                <select name="engine" id="engine" required>
-                    <option value="80kw">80kw</option>
-                    <option value="100kw">100kw</option>
-                    <option value="120kw">120kw</option>
-                </select>
-            </div>
-            <div>
-                <label for="transmition">Transmition</label>
-                <select name="transmition" id="transmition" required>
-                    <option value="manual">Manual</option>
-                    <option value="automatic">Automatic</option>
-                </select>
-            </div>
-            <div>
-                <label for="premium">Premium package</label>
-                <input type="checkbox" name="premium" id="premium">
-            </div>
-            <div>
-                <label for="winter">Winter package</label>
-                <input type="checkbox" name="winter" id="winter">
-            </div>
-            <button id="submit-car-btn">Submit</button>
-        </form>
-    </section>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dragon killer</title>
+    <script type="module" src="./js/main.js" defer></script>
+    <link rel="stylesheet" href="./style.css"/>
+  </head>
+  <body>
+    <main>
+      <p id="timer">0</p>
+      <button id="button-start">Start</button>
+      <button id="button-stop">Stop</button>
+    </main>
+  </body>
 </html>
